@@ -432,8 +432,7 @@ const EditorialHero = ({ theme }) => {
 };
 
 const DarkHero = ({ theme }) => {
-  const [mobile, setMobile] = React.useState(window.innerWidth < 768);
-  React.useEffect(() => { const h = () => setMobile(window.innerWidth < 768); window.addEventListener('resize', h, {passive:true}); return () => window.removeEventListener('resize', h); }, []);
+  const mobile = window.innerWidth < 768;
   return (
   <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'clamp(80px,14vh,140px) clamp(20px,5vw,48px) 60px', display:'grid', gridTemplateColumns:mobile?'1fr':'1fr 1fr', gap:mobile?40:60, alignItems:'center', position:'relative' }}>
     <div>
@@ -448,8 +447,7 @@ const DarkHero = ({ theme }) => {
 };
 
 const SplitHero = ({ theme }) => {
-  const [mobile, setMobile] = React.useState(window.innerWidth < 768);
-  React.useEffect(() => { const h = () => setMobile(window.innerWidth < 768); window.addEventListener('resize', h, {passive:true}); return () => window.removeEventListener('resize', h); }, []);
+  const mobile = window.innerWidth < 768;
   return (
   <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'clamp(80px,14vh,140px) clamp(20px,5vw,48px) 60px', display:'grid', gridTemplateColumns:mobile?'1fr':'1.3fr 1fr', gap:mobile?32:80, alignItems:'center' }}>
     <div>
@@ -507,8 +505,7 @@ const useCountUp = (target, duration=1800) => {
 };
 
 const About = ({ theme }) => {
-  const [mobile, setMobile] = React.useState(window.innerWidth < 768);
-  React.useEffect(() => { const h = () => setMobile(window.innerWidth < 768); window.addEventListener('resize', h, {passive:true}); return () => window.removeEventListener('resize', h); }, []);
+  const mobile = window.innerWidth < 768;
   const stats = [{ target:8, suffix:'+', label:"Années d'expertise" }, { target:200, suffix:'+', label:'Dossiers traités' }, { target:3, suffix:'', label:'Avocats associés' }];
   const StatItem = ({ target, suffix, label }) => { const [ref, count] = useCountUp(target); return <div ref={ref}><div style={{ fontFamily:theme.serif, fontSize:48, color:theme.accent, lineHeight:1, marginBottom:8 }}>{count}{suffix}</div><div style={{ fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.fgSoft, textTransform:'uppercase' }}>{label}</div></div>; };
   return (
@@ -533,8 +530,7 @@ const About = ({ theme }) => {
 };
 
 const Expertises = ({ theme }) => {
-  const [mobile, setMobile] = React.useState(window.innerWidth < 768);
-  React.useEffect(() => { const h = () => setMobile(window.innerWidth < 768); window.addEventListener('resize', h, {passive:true}); return () => window.removeEventListener('resize', h); }, []);
+  const mobile = window.innerWidth < 768;
   const catColor = cat => cat==='Affaires' ? theme.accent : cat==='Immobilier' ? `${theme.fg}55` : `${theme.fg}20`;
   const cards = [
     { id:'corporate', num:'01', cat:'Affaires', title:'Corporate & M&A', tags:['M&A','Pactes','Gouvernance','Levées de fonds'] },
@@ -573,8 +569,7 @@ const Expertises = ({ theme }) => {
 };
 
 const Team = ({ theme }) => {
-  const [mobile, setMobile] = React.useState(window.innerWidth < 768);
-  React.useEffect(() => { const h = () => setMobile(window.innerWidth < 768); window.addEventListener('resize', h, {passive:true}); return () => window.removeEventListener('resize', h); }, []);
+  const mobile = window.innerWidth < 768;
   const members = [
     { name:'Marwan Tahar', role:'Avocat · Droit des affaires', bio:"Spécialisé en opérations de M&A, structuration de sociétés et pactes d'associés.", photo:'assets/MIA.jpg' },
     { name:'Thomas Sadaka', role:'Avocat · Droit immobilier', bio:'Expert en promotion immobilière, VEFA et montages complexes d\'investissement.', photo:'assets/TIA.jpg' },
