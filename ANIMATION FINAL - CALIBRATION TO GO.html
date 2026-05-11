@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: #000; }
-  body { font-family: "Inter Tight", sans-serif; }
+  html, body { margin: 0; padding: 0; background: #000; overflow-x: hidden; }
+  body { font-family: "Inter Tight", sans-serif; max-width: 100vw; }
   ::selection { background: #E5651A; color: #fff; }
   a { color: inherit; }
   button { font-family: inherit; }
@@ -231,8 +231,19 @@ const SectionDots = ({ theme }) => {
   );
 };
 
+const useMobile = () => {
+  const [mobile, setMobile] = React.useState(window.innerWidth < 768);
+  React.useEffect(() => {
+    const h = () => setMobile(window.innerWidth < 768);
+    window.addEventListener('resize', h, { passive: true });
+    return () => window.removeEventListener('resize', h);
+  }, []);
+  return mobile;
+};
+
 window.Reveal = Reveal;
 window.useReveal = useReveal;
+window.useMobile = useMobile;
 window.PortraitPlaceholder = PortraitPlaceholder;
 window.CustomCursor = CustomCursor;
 window.ScrollProgress = ScrollProgress;
@@ -400,7 +411,7 @@ const EditorialHero = ({ theme }) => {
     return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
   }, []);
   return (
-    <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'140px 48px 60px', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
+    <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'clamp(80px,14vh,140px) clamp(20px,5vw,48px) 60px', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
       <div style={{ position:'relative', zIndex:2, textAlign:'center' }}>
         <Reveal delay={180}>
           <div style={{ willChange:'transform', transform:`translateY(${parallaxY}px)` }}>
@@ -414,29 +425,35 @@ const EditorialHero = ({ theme }) => {
   );
 };
 
-const DarkHero = ({ theme }) => (
-  <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'140px 48px 80px', display:'grid', gridTemplateColumns:'1fr 1fr', gap:60, alignItems:'center', position:'relative' }}>
+const DarkHero = ({ theme }) => {
+  const mobile = window.useMobile ? window.useMobile() : window.innerWidth < 768;
+  return (
+  <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'clamp(80px,14vh,140px) clamp(20px,5vw,48px) 60px', display:'grid', gridTemplateColumns:mobile?'1fr':'1fr 1fr', gap:mobile?40:60, alignItems:'center', position:'relative' }}>
     <div>
       <Reveal delay={100}><div style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:3, color:theme.accent, textTransform:'uppercase', marginBottom:32 }}>── Cabinet d'avocats · Paris</div></Reveal>
       <Reveal delay={200}><h1 style={{ fontFamily:theme.serif, fontSize:'clamp(48px,6vw,96px)', lineHeight:0.98, margin:0, fontWeight:400, letterSpacing:-1 }}>Le droit,<br/><span style={{ fontStyle:'italic', color:theme.accent }}>autrement</span><br/>ambitieux.</h1></Reveal>
       <Reveal delay={400}><p style={{ fontFamily:theme.sans, fontSize:17, lineHeight:1.6, maxWidth:480, marginTop:36, color:theme.fgSoft }}>Cabinet dédié au droit des affaires et au droit immobilier.</p></Reveal>
       <Reveal delay={600}><div style={{ marginTop:40 }}><a href="#expertises" style={{ padding:'16px 28px', border:`1px solid ${theme.fg}50`, color:theme.fg, textDecoration:'none', fontFamily:theme.sans, fontSize:13, letterSpacing:1.5, textTransform:'uppercase', display:'inline-block' }}>Nos expertises →</a></div></Reveal>
     </div>
-    <Reveal delay={300} y={40}><div style={{ position:'relative', aspectRatio:'4/5', background:`repeating-linear-gradient(135deg,${theme.bgAlt},${theme.bgAlt} 12px,${theme.card} 12px,${theme.card} 24px)`, border:`1px solid ${theme.accent}40` }}><div style={{ position:'absolute', top:24, left:24, fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.accent }}>[ PHOTO CABINET ]</div></div></Reveal>
+    {!mobile && <Reveal delay={300} y={40}><div style={{ position:'relative', aspectRatio:'4/5', background:`repeating-linear-gradient(135deg,${theme.bgAlt},${theme.bgAlt} 12px,${theme.card} 12px,${theme.card} 24px)`, border:`1px solid ${theme.accent}40` }}><div style={{ position:'absolute', top:24, left:24, fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.accent }}>[ PHOTO CABINET ]</div></div></Reveal>}
   </section>
-);
+  );
+};
 
-const SplitHero = ({ theme }) => (
-  <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'140px 48px 60px', display:'grid', gridTemplateColumns:'1.3fr 1fr', gap:80, alignItems:'center' }}>
+const SplitHero = ({ theme }) => {
+  const mobile = window.useMobile ? window.useMobile() : window.innerWidth < 768;
+  return (
+  <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'clamp(80px,14vh,140px) clamp(20px,5vw,48px) 60px', display:'grid', gridTemplateColumns:mobile?'1fr':'1.3fr 1fr', gap:mobile?32:80, alignItems:'center' }}>
     <div>
       <Reveal delay={100}><div style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:3, color:theme.accent, textTransform:'uppercase', marginBottom:40 }}>Cabinet d'avocats · Paris</div></Reveal>
       <Reveal delay={200}><h1 style={{ fontFamily:theme.serif, fontSize:'clamp(52px,7vw,120px)', lineHeight:0.95, margin:0, fontWeight:400, letterSpacing:-2 }}>Avocats de ceux<br/>qui <span style={{ fontStyle:'italic', color:theme.accent }}>bâtissent</span>.</h1></Reveal>
       <Reveal delay={400}><p style={{ fontFamily:theme.sans, fontSize:18, lineHeight:1.6, maxWidth:540, marginTop:36, color:theme.fgSoft }}>Droit des affaires et immobilier pour entrepreneurs et promoteurs.</p></Reveal>
       <Reveal delay={600}><div style={{ marginTop:48 }}><a href="#expertises" style={{ color:theme.fg, textDecoration:'none', fontFamily:theme.sans, fontSize:13, letterSpacing:1.5, textTransform:'uppercase', borderBottom:`1px solid ${theme.accent}`, paddingBottom:4 }}>Voir nos expertises →</a></div></Reveal>
     </div>
-    <Reveal delay={300} y={40}><div style={{ aspectRatio:'3/4', background:`repeating-linear-gradient(135deg,${theme.bgAlt},${theme.bgAlt} 12px,${theme.card} 12px,${theme.card} 24px)` }}><div style={{ padding:24, fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.fgSoft }}>[ PORTRAIT ]</div></div></Reveal>
+    {!mobile && <Reveal delay={300} y={40}><div style={{ aspectRatio:'3/4', background:`repeating-linear-gradient(135deg,${theme.bgAlt},${theme.bgAlt} 12px,${theme.card} 12px,${theme.card} 24px)` }}><div style={{ padding:24, fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.fgSoft }}>[ PORTRAIT ]</div></div></Reveal>}
   </section>
-);
+  );
+};
 
 const Hero = ({ theme, logo }) => {
   const t = theme.heroTreatment;
@@ -482,19 +499,20 @@ const useCountUp = (target, duration=1800) => {
 };
 
 const About = ({ theme }) => {
+  const mobile = window.useMobile ? window.useMobile() : window.innerWidth < 768;
   const stats = [{ target:8, suffix:'+', label:"Années d'expertise" }, { target:200, suffix:'+', label:'Dossiers traités' }, { target:3, suffix:'', label:'Avocats associés' }];
   const StatItem = ({ target, suffix, label }) => { const [ref, count] = useCountUp(target); return <div ref={ref}><div style={{ fontFamily:theme.serif, fontSize:48, color:theme.accent, lineHeight:1, marginBottom:8 }}>{count}{suffix}</div><div style={{ fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.fgSoft, textTransform:'uppercase' }}>{label}</div></div>; };
   return (
-    <section id="apropos" style={{ color:theme.fg, padding:'72px 40px', position:'relative', overflow:'hidden' }}>
+    <section id="apropos" style={{ color:theme.fg, padding:`clamp(40px,8vw,72px) clamp(20px,5vw,40px)`, position:'relative', overflow:'hidden' }}>
       <GridBackground theme={theme}/>
       <div style={{ maxWidth:1280, margin:'0 auto', position:'relative', zIndex:1 }}>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:80, alignItems:'start' }}>
+        <div style={{ display:'grid', gridTemplateColumns:mobile?'1fr':'1fr 1.4fr', gap:mobile?40:80, alignItems:'start' }}>
           <Reveal delay={100}><h2 style={{ fontFamily:theme.serif, fontSize:'clamp(40px,5vw,72px)', lineHeight:1, margin:0, fontWeight:400, letterSpacing:-1.5 }}>Un engagement <span style={{ fontStyle:'italic', color:theme.accent }}>sans faille</span>.</h2></Reveal>
           <Reveal delay={250}>
             <div style={{ fontFamily:theme.sans, fontSize:17, lineHeight:1.7, color:theme.fg, background:'rgba(255,170,51,0.55)', border:'1px solid rgba(255,200,100,0.3)', padding:'24px 28px' }}>
               <p style={{ margin:'0 0 24px' }}>Le cabinet AMI accompagne entrepreneurs, investisseurs et promoteurs dans la réalisation de leurs projets — de la structuration initiale à la gestion des contentieux.</p>
               <p style={{ margin:'0 0 24px', color:theme.fgSoft }}>Nous croyons en une approche personnalisée, fondée sur l'écoute et la compréhension fine des enjeux propres à chaque dossier.</p>
-              <div style={{ marginTop:48, display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:32, borderTop:`1px solid ${theme.line}22`, paddingTop:32 }}>
+              <div style={{ marginTop:32, display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:mobile?16:32, borderTop:`1px solid ${theme.line}22`, paddingTop:32 }}>
                 {stats.map(s => <StatItem key={s.label} {...s}/>)}
               </div>
             </div>
@@ -506,6 +524,7 @@ const About = ({ theme }) => {
 };
 
 const Expertises = ({ theme }) => {
+  const mobile = window.useMobile ? window.useMobile() : window.innerWidth < 768;
   const catColor = cat => cat==='Affaires' ? theme.accent : cat==='Immobilier' ? `${theme.fg}55` : `${theme.fg}20`;
   const cards = [
     { id:'corporate', num:'01', cat:'Affaires', title:'Corporate & M&A', tags:['M&A','Pactes','Gouvernance','Levées de fonds'] },
@@ -517,11 +536,11 @@ const Expertises = ({ theme }) => {
   ];
   const [hovered, setHovered] = React.useState(null);
   return (
-    <section id="expertises" style={{ color:theme.fg, padding:'72px 40px', position:'relative', overflow:'hidden' }}>
+    <section id="expertises" style={{ color:theme.fg, padding:`clamp(40px,8vw,72px) clamp(20px,5vw,40px)`, position:'relative', overflow:'hidden' }}>
       <GridBackground theme={theme}/>
       <div style={{ maxWidth:1280, margin:'0 auto', position:'relative', zIndex:1 }}>
-        <Reveal delay={100}><h2 style={{ fontFamily:theme.serif, fontSize:'clamp(40px,5vw,72px)', lineHeight:1, margin:'0 0 40px', fontWeight:400, letterSpacing:-1.5, whiteSpace:'nowrap' }}>Au service des <span style={{ fontStyle:'italic', color:theme.accent }}>acteurs de l'immobilier</span>.</h2></Reveal>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:2 }}>
+        <Reveal delay={100}><h2 style={{ fontFamily:theme.serif, fontSize:'clamp(28px,5vw,72px)', lineHeight:1.1, margin:'0 0 40px', fontWeight:400, letterSpacing:-1.5 }}>Au service des <span style={{ fontStyle:'italic', color:theme.accent }}>acteurs de l'immobilier</span>.</h2></Reveal>
+        <div style={{ display:'grid', gridTemplateColumns:mobile?'1fr':'repeat(3,1fr)', gap:2 }}>
           {cards.map((card, i) => {
             const isHov = hovered===i, cc = catColor(card.cat);
             return (
@@ -544,21 +563,22 @@ const Expertises = ({ theme }) => {
 };
 
 const Team = ({ theme }) => {
+  const mobile = window.useMobile ? window.useMobile() : window.innerWidth < 768;
   const members = [
     { name:'Marwan Tahar', role:'Avocat · Droit des affaires', bio:"Spécialisé en opérations de M&A, structuration de sociétés et pactes d'associés.", photo:'assets/MIA.jpg' },
     { name:'Thomas Sadaka', role:'Avocat · Droit immobilier', bio:'Expert en promotion immobilière, VEFA et montages complexes d\'investissement.', photo:'assets/TIA.jpg' },
     { name:'Simon Roumégoux', role:'Avocat · Conseil stratégique', bio:'Intervient en restructuration, transmission d\'entreprise et due diligence.', photo:'assets/SIA.jpg' },
   ];
   return (
-    <section id="equipe" style={{ color:theme.fg, padding:'72px 40px' }}>
+    <section id="equipe" style={{ color:theme.fg, padding:`clamp(40px,8vw,72px) clamp(20px,5vw,40px)` }}>
       <div style={{ maxWidth:1280, margin:'0 auto', position:'relative', zIndex:1 }}>
         <Reveal delay={100}>
-          <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between', marginBottom:80, gap:40, flexWrap:'wrap' }}>
+          <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between', marginBottom:mobile?40:80, gap:24, flexWrap:'wrap' }}>
             <h2 style={{ fontFamily:theme.serif, fontSize:'clamp(40px,5vw,72px)', lineHeight:1, margin:0, fontWeight:400, letterSpacing:-1.5 }}><span style={{ fontStyle:'italic', color:theme.accent }}>ÉQUIPE</span></h2>
             <p style={{ fontFamily:theme.sans, fontSize:16, color:theme.fgSoft, margin:0, maxWidth:400, lineHeight:1.6 }}>Au-delà de l'avocat, nous sommes les partenaires juridiques des entrepreneurs.</p>
           </div>
         </Reveal>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:40 }}>
+        <div style={{ display:'grid', gridTemplateColumns:mobile?'1fr':'repeat(3,1fr)', gap:mobile?32:40 }}>
           {members.map((m, i) => (
             <Reveal key={m.name} delay={i*150} y={40}>
               <div>
