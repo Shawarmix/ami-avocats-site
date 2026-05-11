@@ -5,8 +5,10 @@
 *.mkv
 *.webm
 
-# ─── Exception : on garde la vidéo principale ───
-!assets/0515.mov
+# ─── Exception : on garde les vidéos optimisées ───
+!assets/0515-4k.mp4
+!assets/0515.mp4
+!assets/0515.webm
 
 # ─── Fichiers système ───
 .DS_Store

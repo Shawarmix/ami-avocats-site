@@ -52,11 +52,21 @@
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
 <body>
-<video autoplay muted playsinline disablePictureInPicture
+<video id="hero-video" autoplay muted playsinline disablePictureInPicture
   style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;object-position:70% 50%;z-index:0;pointer-events:none;">
-  <source src="assets/0515.mov" type="video/quicktime">
-  <source src="assets/0515.mov" type="video/mp4">
 </video>
+<script>
+(function(){
+  var v = document.getElementById('hero-video');
+  var mobile = window.matchMedia('(hover: none), (max-width: 1024px)').matches;
+  if (mobile) {
+    v.innerHTML = '<source src="assets/0515.webm" type="video/webm"><source src="assets/0515.mp4" type="video/mp4">';
+  } else {
+    v.innerHTML = '<source src="assets/0515-4k.mp4" type="video/mp4"><source src="assets/0515.mov" type="video/quicktime">';
+  }
+  v.load();
+})();
+</script>
 <div id="root" style="position:relative;z-index:1"></div>
 
 <!-- ── Themes ───────────────────────────────────────────────────────────────── -->
