@@ -1,0 +1,1061 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMI Avocats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #000; }
+  body { font-family: "Inter Tight", sans-serif; }
+  ::selection { background: #E5651A; color: #fff; }
+  a { color: inherit; }
+  button { font-family: inherit; }
+  html { scroll-behavior: smooth; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #00000033; border-radius: 5px; }
+</style>
+<style>
+  #ami-particles { display:none; }
+
+  .glass-text {
+    background-color: rgba(255, 150, 0, 0.15);
+    padding: 0.15em 0.4em;
+    border-radius: 6px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #1a0b2e;
+    font-weight: 500;
+  }
+
+  .editorial-glass-panel {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+  .editorial-glass-panel p,
+  .editorial-glass-panel span,
+  .editorial-glass-panel div {
+    color: #1a0b2e;
+    font-weight: 500;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+</head>
+<body>
+<video id="hero-video" autoplay muted playsinline disablePictureInPicture
+  style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;object-position:70% 50%;z-index:0;pointer-events:none;">
+</video>
+<script>
+(function(){
+  var v = document.getElementById('hero-video');
+  var mobile = window.matchMedia('(hover: none), (max-width: 1024px)').matches;
+  if (mobile) {
+    v.innerHTML = '<source src="assets/0515.webm" type="video/webm"><source src="assets/0515.mp4" type="video/mp4">';
+  } else {
+    v.innerHTML = '<source src="assets/0515-4k.mp4" type="video/mp4"><source src="assets/0515.mov" type="video/quicktime">';
+  }
+  v.load();
+})();
+</script>
+<div id="root" style="position:relative;z-index:1"></div>
+
+<!-- ── Themes ───────────────────────────────────────────────────────────────── -->
+<script>
+window.AMI_THEMES = [
+  { id:'ambre', name:'Ambre', subtitle:'Orange dominant — signature', bg:'#ff9600', bgAlt:'#ff9600', fg:'#1A1410', fgSoft:'#1A1208', accent:'#E5651A', accentDeep:'#A8420A', line:'#1A1410', card:'#ffaa33', serif:'"Cormorant Garamond","EB Garamond",Georgia,serif', sans:'"Inter Tight","Helvetica Neue",sans-serif', mono:'"JetBrains Mono",ui-monospace,monospace', heroTreatment:'editorial' },
+  { id:'terracotta', name:'Terracotta', subtitle:'Orange brûlé + ivoire — éditorial', bg:'#ff9600', bgAlt:'#ff9600', fg:'#2B1C12', fgSoft:'#1A1208', accent:'#C15A2E', accentDeep:'#8B3E1E', line:'#2B1C12', card:'#ffaa33', serif:'"Fraunces","Times New Roman",serif', sans:'"Söhne","Inter",sans-serif', mono:'"IBM Plex Mono",monospace', heroTreatment:'split' },
+  { id:'cuivre-marine', name:'Cuivre & Marine', subtitle:'Cuivre sur bleu nuit — contraste prestige', bg:'#ff9600', bgAlt:'#ff9600', fg:'#1A1410', fgSoft:'#1A1208', accent:'#E08A42', accentDeep:'#B2661E', line:'#1A1410', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+  { id:'safran-foret', name:'Safran & Forêt', subtitle:'Safran + vert foncé — confiance', bg:'#ff9600', bgAlt:'#ff9600', fg:'#14251D', fgSoft:'#1A1208', accent:'#E08430', accentDeep:'#1F3A2C', line:'#14251D', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+  { id:'bronze-noir', name:'Bronze & Noir', subtitle:'Bronze sur noir — luxe moderne', bg:'#ff9600', bgAlt:'#ff9600', fg:'#1A1410', fgSoft:'#1A1208', accent:'#D98E3F', accentDeep:'#A66622', line:'#1A1410', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+  { id:'rouille-bordeaux', name:'Rouille & Bordeaux', subtitle:'Rouille + bordeaux — classique français', bg:'#ff9600', bgAlt:'#ff9600', fg:'#2A1012', fgSoft:'#1A1208', accent:'#C65A28', accentDeep:'#7A1F2B', line:'#2A1012', card:'#ffaa33', serif:'"Fraunces",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'split' },
+  { id:'sable-rose', name:'Sable rosé', subtitle:'Rose poudré + orange — douceur signature', bg:'#ff9600', bgAlt:'#ff9600', fg:'#2C1A16', fgSoft:'#1A1208', accent:'#E5651A', accentDeep:'#B84710', line:'#2C1A16', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+  { id:'ciment-chaud', name:'Ciment chaud', subtitle:'Gris béton + orange — minimalisme urbain', bg:'#ff9600', bgAlt:'#ff9600', fg:'#1E1C18', fgSoft:'#1A1208', accent:'#D96020', accentDeep:'#A84010', line:'#1E1C18', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+  { id:'ecru-soleil', name:'Écru & Soleil', subtitle:'Ivoire chaud + orange safran — lumière naturelle', bg:'#ff9600', bgAlt:'#ff9600', fg:'#1C1608', fgSoft:'#1A1208', accent:'#E8700A', accentDeep:'#B85008', line:'#1C1608', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+  { id:'orange-brule', name:'Orange brûlé', subtitle:'Fond orange très doux — immersion totale dans la couleur', bg:'#ff9600', bgAlt:'#ff9600', fg:'#1A0E06', fgSoft:'#1A1208', accent:'#D45510', accentDeep:'#A03008', line:'#1A0E06', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+  { id:'miel-fonce', name:'Miel foncé', subtitle:'Orange profond sur fond doré — chaleur maximaliste', bg:'#ff9600', bgAlt:'#ff9600', fg:'#180E02', fgSoft:'#1A1208', accent:'#C84A08', accentDeep:'#8C2E04', line:'#180E02', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+  { id:'sunrise', name:'Sunrise', subtitle:'Fond pêche + orange vif — dynamique, moderne', bg:'#ff9600', bgAlt:'#ff9600', fg:'#1A0A04', fgSoft:'#1A1208', accent:'#E84808', accentDeep:'#B03005', line:'#1A0A04', card:'#ffaa33', serif:'"Cormorant Garamond",Georgia,serif', sans:'"Inter Tight",sans-serif', mono:'"JetBrains Mono",monospace', heroTreatment:'editorial' },
+];
+</script>
+
+<!-- ── Shared components ─────────────────────────────────────────────────────── -->
+<script type="text/babel" data-presets="react">
+const useReveal = () => {
+  const ref = React.useRef(null);
+  const [visible, setVisible] = React.useState(false);
+  React.useEffect(() => {
+    if (!ref.current) return;
+    let cancelled = false;
+    const reveal = () => { if (!cancelled) setVisible(true); };
+    const safety = setTimeout(reveal, 400);
+    const raf = requestAnimationFrame(() => {
+      if (!ref.current || cancelled) return;
+      const rect = ref.current.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (rect.top < vh && rect.bottom > 0) reveal();
+    });
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { reveal(); io.disconnect(); }
+    }, { threshold: 0 });
+    io.observe(ref.current);
+    return () => { cancelled = true; clearTimeout(safety); cancelAnimationFrame(raf); io.disconnect(); };
+  }, []);
+  return [ref, visible];
+};
+
+const Reveal = ({ children, delay = 0, y = 24, as: Tag = 'div', style, ...rest }) => {
+  const [ref, visible] = useReveal();
+  return (
+    <Tag ref={ref} style={{
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : `translateY(${y}px)`,
+      transition: `opacity 900ms cubic-bezier(.2,.7,.2,1) ${delay}ms, transform 900ms cubic-bezier(.2,.7,.2,1) ${delay}ms`,
+      ...style,
+    }} {...rest}>{children}</Tag>
+  );
+};
+
+const PortraitPlaceholder = ({ theme, name, label = 'portrait' }) => (
+  <div style={{
+    aspectRatio: '3/4', width: '100%',
+    background: `repeating-linear-gradient(135deg, ${theme.bgAlt}, ${theme.bgAlt} 8px, ${theme.card} 8px, ${theme.card} 16px)`,
+    border: `1px solid ${theme.line}22`,
+    position: 'relative', overflow: 'hidden',
+    display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start',
+  }}>
+    <div style={{ position: 'absolute', top: 16, left: 16, fontFamily: theme.mono, fontSize: 10, letterSpacing: 2, color: theme.fgSoft, textTransform: 'uppercase' }}>[{label}]</div>
+    <div style={{ padding: 20, width: '100%', background: `linear-gradient(180deg, transparent, ${theme.card}f0)`, fontFamily: theme.serif, fontSize: 22, color: theme.fg }}>{name}</div>
+  </div>
+);
+
+const CustomCursor = ({ theme }) => {
+  const dotRef   = React.useRef(null);
+  const ringRef  = React.useRef(null);
+  const posRef   = React.useRef({ x: -100, y: -100 });
+  const ringPos  = React.useRef({ x: -100, y: -100 });
+
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = '* { cursor: none !important; }';
+    document.head.appendChild(style);
+    const onMove = e => { posRef.current = { x: e.clientX, y: e.clientY }; };
+    const onEnter = e => {
+      if (e.target.closest('a, button')) {
+        if (dotRef.current)  { dotRef.current.style.width='14px'; dotRef.current.style.height='14px'; dotRef.current.style.marginLeft='-7px'; dotRef.current.style.marginTop='-7px'; }
+        if (ringRef.current) { ringRef.current.style.width='56px'; ringRef.current.style.height='56px'; ringRef.current.style.marginLeft='-28px'; ringRef.current.style.marginTop='-28px'; }
+      }
+    };
+    const onLeave = e => {
+      if (e.target.closest('a, button')) {
+        if (dotRef.current)  { dotRef.current.style.width='8px'; dotRef.current.style.height='8px'; dotRef.current.style.marginLeft='-4px'; dotRef.current.style.marginTop='-4px'; }
+        if (ringRef.current) { ringRef.current.style.width='32px'; ringRef.current.style.height='32px'; ringRef.current.style.marginLeft='-16px'; ringRef.current.style.marginTop='-16px'; }
+      }
+    };
+    document.addEventListener('mousemove', onMove, { passive: true });
+    document.addEventListener('mouseover', onEnter, { passive: true });
+    document.addEventListener('mouseout',  onLeave, { passive: true });
+    let raf;
+    const tick = () => {
+      const { x, y } = posRef.current;
+      if (dotRef.current) { dotRef.current.style.left = x+'px'; dotRef.current.style.top = y+'px'; }
+      ringPos.current.x += (x - ringPos.current.x) * 0.12;
+      ringPos.current.y += (y - ringPos.current.y) * 0.12;
+      if (ringRef.current) { ringRef.current.style.left = ringPos.current.x+'px'; ringRef.current.style.top = ringPos.current.y+'px'; }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      document.head.removeChild(style);
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseover', onEnter);
+      document.removeEventListener('mouseout',  onLeave);
+      cancelAnimationFrame(raf);
+    };
+  }, [theme.accent]);
+
+  return (
+    <>
+      <div ref={dotRef} style={{ position:'fixed', zIndex:9997, pointerEvents:'none', width:6, height:6, marginLeft:-3, marginTop:-3, background:theme.accent, borderRadius:'50%', transition:'width 250ms, height 250ms, margin 250ms' }} />
+      <div ref={ringRef} style={{ position:'fixed', zIndex:9996, pointerEvents:'none', width:18, height:18, marginLeft:-9, marginTop:-9, border:`1px solid ${theme.accent}55`, borderRadius:'50%', transition:'width 250ms, height 250ms, margin 250ms' }} />
+    </>
+  );
+};
+
+const ScrollProgress = ({ theme }) => {
+  const [pct, setPct] = React.useState(0);
+  React.useEffect(() => {
+    const onScroll = () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      setPct(total > 0 ? (window.scrollY / total) * 100 : 0);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return <div style={{ position:'fixed', top:0, left:0, zIndex:48, height:2, background:theme.accent, width:`${pct}%`, transition:'width 80ms linear', pointerEvents:'none' }} />;
+};
+
+const SectionDots = ({ theme }) => {
+  const sections = [
+    { id:'top', label:'Accueil' }, { id:'expertises', label:'Expertises' },
+    { id:'apropos', label:'À propos' }, { id:'equipe', label:'Équipe' },
+    { id:'articles', label:'Articles' }, { id:'contact', label:'Contact' },
+  ];
+  const [active, setActive] = React.useState(0);
+  React.useEffect(() => {
+    const observers = sections.map(({ id }, i) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const io = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setActive(i); }, { threshold: 0.3 });
+      io.observe(el);
+      return io;
+    });
+    return () => observers.forEach(io => io && io.disconnect());
+  }, []);
+  return (
+    <div style={{ position:'fixed', left:20, top:'50%', transform:'translateY(-50%)', zIndex:30, display:'flex', flexDirection:'column', gap:10 }}>
+      {sections.map(({ id, label }, i) => (
+        <a key={id} href={`#${id}`} title={label} style={{ textDecoration:'none' }}>
+          <div style={{ width:6, height:6, borderRadius:'50%', border:`1px solid ${theme.fgSoft}`, background: active===i ? theme.accent : 'transparent', transform: active===i ? 'scale(1.4)' : 'scale(1)', transition:'background 300ms, transform 300ms, border-color 300ms', borderColor: active===i ? theme.accent : theme.fgSoft }} />
+        </a>
+      ))}
+    </div>
+  );
+};
+
+window.Reveal = Reveal;
+window.useReveal = useReveal;
+window.PortraitPlaceholder = PortraitPlaceholder;
+window.CustomCursor = CustomCursor;
+window.ScrollProgress = ScrollProgress;
+window.SectionDots = SectionDots;
+</script>
+
+<!-- ── Logo variants ─────────────────────────────────────────────────────────── -->
+<script type="text/babel" data-presets="react">
+const LOGO_VARIANTS = [
+{
+  id:'capitales-serif', name:'Capitales sérif espacées', description:'Sobre, intemporel, haut de gamme',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 220 64" style={{ width:220*size, height:64*size, display:'block' }}><text x="110" y="34" fill={theme.fg} fontFamily={theme.serif} fontSize="30" fontWeight="400" textAnchor="middle" letterSpacing="6">AMI</text><line x1="60" y1="44" x2="160" y2="44" stroke={theme.accent} strokeWidth="0.8"/><text x="110" y="56" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" textAnchor="middle" letterSpacing="4">AVOCATS · PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 90 40" style={{ width:90*size, height:40*size, display:'block' }}><text x="45" y="26" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="400" textAnchor="middle" letterSpacing="4">AMI</text></svg>,
+},
+{
+  id:'monogramme-cercle', name:'Monogramme cerclé', description:'Sceau institutionnel, héritage',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 220 64" style={{ width:220*size, height:64*size, display:'block' }}><circle cx="32" cy="32" r="26" fill="none" stroke={theme.fg} strokeWidth="0.8"/><text x="32" y="40" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontStyle="italic" textAnchor="middle">A</text><text x="74" y="30" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="400" letterSpacing="2">AMI</text><text x="74" y="46" fill={theme.accent} fontFamily={theme.sans} fontSize="7" letterSpacing="3">AVOCATS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 64 64" style={{ width:64*size, height:64*size, display:'block' }}><circle cx="32" cy="32" r="26" fill="none" stroke={theme.fg} strokeWidth="0.8"/><text x="32" y="40" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontStyle="italic" textAnchor="middle">A</text></svg>,
+},
+{
+  id:'bloc-plein', name:'Bloc plein', description:'Fort, moderne, affirmé',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 220 64" style={{ width:220*size, height:64*size, display:'block' }}><rect x="8" y="12" width="44" height="44" fill={theme.accent}/><text x="30" y="44" fill={theme.bg} fontFamily={theme.serif} fontSize="26" textAnchor="middle" fontWeight="500">A</text><text x="62" y="34" fill={theme.fg} fontFamily={theme.sans} fontSize="18" fontWeight="600" letterSpacing="1">AMI</text><text x="62" y="50" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="8" letterSpacing="2">AVOCATS · PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 44 44" style={{ width:44*size, height:44*size, display:'block' }}><rect x="0" y="0" width="44" height="44" fill={theme.accent}/><text x="22" y="31" fill={theme.bg} fontFamily={theme.serif} fontSize="24" textAnchor="middle" fontWeight="500">A</text></svg>,
+},
+{
+  id:'ligne-italique', name:'Italique bas-de-casse', description:'Humain, éditorial, proche',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 220 64" style={{ width:220*size, height:64*size, display:'block' }}><text x="12" y="44" fill={theme.fg} fontFamily={theme.serif} fontSize="38" fontStyle="italic" fontWeight="400">ami</text><circle cx="84" cy="42" r="1.8" fill={theme.accent}/><text x="94" y="30" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" letterSpacing="3">CABINET D'AVOCATS</text><text x="94" y="44" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" letterSpacing="3">AFFAIRES · IMMOBILIER</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 90 48" style={{ width:90*size, height:48*size, display:'block' }}><text x="10" y="36" fill={theme.fg} fontFamily={theme.serif} fontSize="32" fontStyle="italic">ami</text><circle cx="72" cy="34" r="1.5" fill={theme.accent}/></svg>,
+},
+{
+  id:'lignes-empilees', name:'Empilement typographique', description:'Architectural, éditorial, précis',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 220 64" style={{ width:220*size, height:64*size, display:'block' }}><text x="12" y="28" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="500" letterSpacing="2">AMI</text><text x="12" y="44" fill={theme.accent} fontFamily={theme.sans} fontSize="9" fontWeight="500" letterSpacing="3">AVOCATS</text><line x1="12" y1="52" x2="80" y2="52" stroke={theme.fg} strokeWidth="0.4"/><text x="12" y="60" fill={theme.fgSoft} fontFamily={theme.mono} fontSize="6" letterSpacing="1">PARIS · EST. 2018</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 80 48" style={{ width:80*size, height:48*size, display:'block' }}><text x="10" y="24" fill={theme.fg} fontFamily={theme.serif} fontSize="20" fontWeight="500" letterSpacing="2">AMI</text><text x="10" y="38" fill={theme.accent} fontFamily={theme.sans} fontSize="8" fontWeight="500" letterSpacing="3">AVOCATS</text></svg>,
+},
+{
+  id:'lettres-geometriques', name:'Lettres géométriques', description:'Contemporain, confiant, distinctif',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 220 64" style={{ width:220*size, height:64*size, display:'block' }}><path d="M 14 50 L 26 14 L 38 50 M 20 38 L 32 38" stroke={theme.fg} strokeWidth="2.2" fill="none" strokeLinecap="square" strokeLinejoin="miter"/><path d="M 46 50 L 46 14 L 58 34 L 70 14 L 70 50" stroke={theme.fg} strokeWidth="2.2" fill="none" strokeLinecap="square" strokeLinejoin="miter"/><line x1="80" y1="14" x2="80" y2="50" stroke={theme.fg} strokeWidth="2.2" strokeLinecap="square"/><circle cx="80" cy="8" r="2" fill={theme.accent}/><text x="98" y="32" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="8" letterSpacing="3">CABINET</text><text x="98" y="46" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="8" letterSpacing="3">D'AVOCATS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 90 60" style={{ width:90*size, height:60*size, display:'block' }}><path d="M 10 50 L 22 14 L 34 50 M 16 38 L 28 38" stroke={theme.fg} strokeWidth="2.2" fill="none" strokeLinejoin="miter"/><path d="M 42 50 L 42 14 L 54 34 L 66 14 L 66 50" stroke={theme.fg} strokeWidth="2.2" fill="none" strokeLinejoin="miter"/><line x1="76" y1="14" x2="76" y2="50" stroke={theme.fg} strokeWidth="2.2"/><circle cx="76" cy="8" r="2" fill={theme.accent}/></svg>,
+},
+{
+  id:'aa-miroir', name:'AA miroir', description:'Deux A en miroir — accord, alliance, dialogue',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 64" style={{ width:240*size, height:64*size, display:'block' }}><path d="M 12 52 L 28 14 L 44 52 M 19 38 L 37 38" stroke={theme.fg} strokeWidth="1.6" fill="none" strokeLinejoin="miter"/><path d="M 52 14 L 68 52 L 84 14 M 59 28 L 77 28" stroke={theme.accent} strokeWidth="1.6" fill="none" strokeLinejoin="miter"/><line x1="100" y1="20" x2="100" y2="48" stroke={theme.fg} strokeWidth="0.6" opacity="0.3"/><text x="112" y="30" fill={theme.fg} fontFamily={theme.serif} fontSize="18" letterSpacing="3">AMI</text><text x="112" y="46" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" letterSpacing="3">AVOCATS · PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 88 64" style={{ width:88*size, height:64*size, display:'block' }}><path d="M 8 52 L 24 14 L 40 52 M 15 38 L 33 38" stroke={theme.fg} strokeWidth="1.6" fill="none" strokeLinejoin="miter"/><path d="M 48 14 L 64 52 L 80 14 M 55 28 L 73 28" stroke={theme.accent} strokeWidth="1.6" fill="none" strokeLinejoin="miter"/></svg>,
+},
+{
+  id:'aa-ligatures', name:'AA ligaturé', description:'Double A fusionné — monogramme signature',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 72" style={{ width:240*size, height:72*size, display:'block' }}><path d="M 10 58 L 30 10 L 50 58 M 30 10 L 50 58 L 70 10 L 90 58" stroke={theme.fg} strokeWidth="1.2" fill="none" strokeLinejoin="miter"/><line x1="18" y1="42" x2="82" y2="42" stroke={theme.accent} strokeWidth="1.2"/><text x="108" y="34" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="400" letterSpacing="4">AMI</text><text x="108" y="50" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" letterSpacing="3">AVOCATS ASSOCIÉS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 100 68" style={{ width:100*size, height:68*size, display:'block' }}><path d="M 6 58 L 26 10 L 46 58 M 26 10 L 46 58 L 66 10 L 86 58" stroke={theme.fg} strokeWidth="1.2" fill="none" strokeLinejoin="miter"/><line x1="14" y1="42" x2="78" y2="42" stroke={theme.accent} strokeWidth="1.2"/></svg>,
+},
+{
+  id:'a-chevron', name:'A — chevron', description:'A stylisé en chevron — ascension, structure',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 64" style={{ width:240*size, height:64*size, display:'block' }}><path d="M 14 54 L 34 12 L 54 54 L 46 54 L 34 28 L 22 54 Z" fill={theme.fg}/><rect x="27" y="38" width="14" height="2.2" fill={theme.accent}/><text x="68" y="34" fill={theme.fg} fontFamily={theme.sans} fontSize="20" fontWeight="600" letterSpacing="2">AMI</text><text x="68" y="50" fill={theme.fgSoft} fontFamily={theme.mono} fontSize="7" letterSpacing="2">AVOCATS — PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 68 64" style={{ width:68*size, height:64*size, display:'block' }}><path d="M 10 54 L 30 12 L 50 54 L 42 54 L 30 28 L 18 54 Z" fill={theme.fg}/><rect x="23" y="38" width="14" height="2.2" fill={theme.accent}/></svg>,
+},
+{
+  id:'a-colonne', name:'A — colonne', description:'A architectural évoquant une colonne de justice',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 72" style={{ width:240*size, height:72*size, display:'block' }}><line x1="12" y1="10" x2="56" y2="10" stroke={theme.fg} strokeWidth="1.4"/><line x1="16" y1="14" x2="52" y2="14" stroke={theme.fg} strokeWidth="0.6"/><line x1="24" y1="18" x2="18" y2="58" stroke={theme.fg} strokeWidth="1.2"/><line x1="44" y1="18" x2="50" y2="58" stroke={theme.fg} strokeWidth="1.2"/><line x1="30" y1="20" x2="28" y2="56" stroke={theme.fgSoft} strokeWidth="0.4"/><line x1="34" y1="20" x2="34" y2="56" stroke={theme.fgSoft} strokeWidth="0.4"/><line x1="38" y1="20" x2="40" y2="56" stroke={theme.fgSoft} strokeWidth="0.4"/><line x1="10" y1="62" x2="58" y2="62" stroke={theme.fg} strokeWidth="1.4"/><line x1="22" y1="40" x2="46" y2="40" stroke={theme.accent} strokeWidth="1.4"/><text x="80" y="36" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="400" letterSpacing="4">AMI</text><text x="80" y="52" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" letterSpacing="3">AVOCATS · PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 68 72" style={{ width:68*size, height:72*size, display:'block' }}><line x1="10" y1="10" x2="54" y2="10" stroke={theme.fg} strokeWidth="1.4"/><line x1="22" y1="18" x2="16" y2="58" stroke={theme.fg} strokeWidth="1.2"/><line x1="42" y1="18" x2="48" y2="58" stroke={theme.fg} strokeWidth="1.2"/><line x1="8" y1="62" x2="56" y2="62" stroke={theme.fg} strokeWidth="1.4"/><line x1="20" y1="40" x2="44" y2="40" stroke={theme.accent} strokeWidth="1.4"/></svg>,
+},
+{
+  id:'a-point-orange', name:'A. — point éditorial', description:"A serif suivi d'un point accentué — signature brève",
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 64" style={{ width:240*size, height:64*size, display:'block' }}><text x="12" y="50" fill={theme.fg} fontFamily={theme.serif} fontSize="54" fontWeight="500">A</text><circle cx="56" cy="46" r="4" fill={theme.accent}/><text x="78" y="30" fill={theme.fg} fontFamily={theme.sans} fontSize="13" fontWeight="500" letterSpacing="4">AMI AVOCATS</text><line x1="78" y1="36" x2="180" y2="36" stroke={theme.fg} strokeWidth="0.4" opacity="0.4"/><text x="78" y="50" fill={theme.fgSoft} fontFamily={theme.mono} fontSize="7" letterSpacing="2">AFFAIRES · IMMOBILIER · CONTENTIEUX</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 72 64" style={{ width:72*size, height:64*size, display:'block' }}><text x="8" y="50" fill={theme.fg} fontFamily={theme.serif} fontSize="54" fontWeight="500">A</text><circle cx="52" cy="46" r="4" fill={theme.accent}/></svg>,
+},
+{
+  id:'aa-blason', name:'AA — blason horizontal', description:'AA encadré en plaque — sceau contemporain',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 64" style={{ width:240*size, height:64*size, display:'block' }}><rect x="6" y="10" width="82" height="44" fill="none" stroke={theme.fg} strokeWidth="0.8"/><rect x="10" y="14" width="74" height="36" fill="none" stroke={theme.fg} strokeWidth="0.4" opacity="0.4"/><text x="47" y="42" fill={theme.fg} fontFamily={theme.serif} fontSize="26" fontWeight="500" textAnchor="middle" letterSpacing="4">AA</text><line x1="6" y1="10" x2="12" y2="10" stroke={theme.accent} strokeWidth="1.4"/><line x1="6" y1="10" x2="6" y2="16" stroke={theme.accent} strokeWidth="1.4"/><line x1="82" y1="54" x2="88" y2="54" stroke={theme.accent} strokeWidth="1.4"/><line x1="88" y1="48" x2="88" y2="54" stroke={theme.accent} strokeWidth="1.4"/><text x="104" y="30" fill={theme.fg} fontFamily={theme.serif} fontSize="20" fontWeight="400" letterSpacing="3">AMI Avocats</text><text x="104" y="46" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" letterSpacing="3">ASSOCIÉS · PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 96 64" style={{ width:96*size, height:64*size, display:'block' }}><rect x="6" y="10" width="82" height="44" fill="none" stroke={theme.fg} strokeWidth="0.8"/><text x="47" y="42" fill={theme.fg} fontFamily={theme.serif} fontSize="26" fontWeight="500" textAnchor="middle" letterSpacing="4">AA</text><line x1="6" y1="10" x2="12" y2="10" stroke={theme.accent} strokeWidth="1.4"/><line x1="6" y1="10" x2="6" y2="16" stroke={theme.accent} strokeWidth="1.4"/><line x1="82" y1="54" x2="88" y2="54" stroke={theme.accent} strokeWidth="1.4"/><line x1="88" y1="48" x2="88" y2="54" stroke={theme.accent} strokeWidth="1.4"/></svg>,
+},
+{
+  id:'a-dans-a', name:'A dans A', description:'A imbriqué au trait — double A, version affinée',
+  render: ({ theme, size=1 }) => {
+    const stroke = theme.fg, accent = theme.accent;
+    return <svg viewBox="0 0 260 90" style={{ width:260*size, height:90*size, display:'block' }}><g stroke={stroke} strokeWidth="1.1" fill="none" strokeLinecap="butt"><line x1="40" y1="10" x2="10" y2="78"/><line x1="40" y1="10" x2="70" y2="78"/><line x1="4" y1="78" x2="20" y2="78"/><line x1="60" y1="78" x2="76" y2="78"/><line x1="36" y1="10" x2="44" y2="10"/></g><g stroke={accent} strokeWidth="0.9" fill="none"><line x1="40" y1="34" x2="28" y2="62"/><line x1="40" y1="34" x2="52" y2="62"/><line x1="32.5" y1="52" x2="47.5" y2="52"/></g><line x1="22" y1="62" x2="58" y2="62" stroke={stroke} strokeWidth="0.6" opacity="0.5"/><text x="96" y="42" fill={theme.fg} fontFamily={theme.serif} fontSize="26" fontWeight="400" letterSpacing="5">AMI</text><line x1="96" y1="50" x2="220" y2="50" stroke={theme.fg} strokeWidth="0.3" opacity="0.35"/><text x="96" y="62" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" letterSpacing="3">AVOCATS ASSOCIÉS · PARIS</text></svg>;
+  },
+  compact: ({ theme, size=1 }) => {
+    const stroke = theme.fg, accent = theme.accent;
+    return <svg viewBox="0 0 80 90" style={{ width:80*size, height:90*size, display:'block' }}><g stroke={stroke} strokeWidth="1.1" fill="none"><line x1="40" y1="10" x2="10" y2="78"/><line x1="40" y1="10" x2="70" y2="78"/><line x1="4" y1="78" x2="20" y2="78"/><line x1="60" y1="78" x2="76" y2="78"/><line x1="36" y1="10" x2="44" y2="10"/></g><g stroke={accent} strokeWidth="0.9" fill="none"><line x1="40" y1="34" x2="28" y2="62"/><line x1="40" y1="34" x2="52" y2="62"/><line x1="32.5" y1="52" x2="47.5" y2="52"/></g><line x1="22" y1="62" x2="58" y2="62" stroke={stroke} strokeWidth="0.6" opacity="0.5"/></svg>;
+  },
+},
+{
+  id:'a-eiffel', name:'A — Tour Eiffel', description:'A parisien — silhouette Eiffel logée dans le A',
+  render: ({ theme, size=1 }) => {
+    const stroke = theme.fg, accent = theme.accent;
+    return <svg viewBox="0 0 260 96" style={{ width:260*size, height:96*size, display:'block' }}><g stroke={stroke} strokeWidth="1.1" fill="none" strokeLinecap="butt"><line x1="42" y1="10" x2="8" y2="84"/><line x1="42" y1="10" x2="76" y2="84"/><line x1="2" y1="84" x2="18" y2="84"/><line x1="66" y1="84" x2="82" y2="84"/><line x1="38" y1="10" x2="46" y2="10"/></g><g stroke={accent} fill="none" strokeLinecap="round"><line x1="42" y1="24" x2="42" y2="31" strokeWidth="0.6"/><line x1="39.5" y1="31" x2="44.5" y2="31" strokeWidth="0.6"/><line x1="39.5" y1="31" x2="36" y2="48" strokeWidth="0.6"/><line x1="44.5" y1="31" x2="48" y2="48" strokeWidth="0.6"/><line x1="36" y1="48" x2="48" y2="48" strokeWidth="0.6"/><line x1="36" y1="48" x2="29" y2="68" strokeWidth="0.6"/><line x1="48" y1="48" x2="55" y2="68" strokeWidth="0.6"/><line x1="26" y1="68" x2="58" y2="68" strokeWidth="0.9"/></g><text x="102" y="44" fill={theme.fg} fontFamily={theme.serif} fontSize="26" fontWeight="400" letterSpacing="5">AMI</text><line x1="102" y1="52" x2="224" y2="52" stroke={theme.fg} strokeWidth="0.3" opacity="0.35"/><text x="102" y="64" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="7" letterSpacing="3">AVOCATS · PARIS</text></svg>;
+  },
+  compact: ({ theme, size=1 }) => {
+    const stroke = theme.fg, accent = theme.accent;
+    return <svg viewBox="0 0 86 96" style={{ width:86*size, height:96*size, display:'block' }}><g stroke={stroke} strokeWidth="1.1" fill="none" strokeLinecap="butt"><line x1="42" y1="10" x2="8" y2="84"/><line x1="42" y1="10" x2="76" y2="84"/><line x1="2" y1="84" x2="18" y2="84"/><line x1="66" y1="84" x2="82" y2="84"/><line x1="38" y1="10" x2="46" y2="10"/></g><g stroke={accent} fill="none" strokeLinecap="round"><line x1="42" y1="24" x2="42" y2="31" strokeWidth="0.6"/><line x1="39.5" y1="31" x2="44.5" y2="31" strokeWidth="0.6"/><line x1="39.5" y1="31" x2="36" y2="48" strokeWidth="0.6"/><line x1="44.5" y1="31" x2="48" y2="48" strokeWidth="0.6"/><line x1="36" y1="48" x2="48" y2="48" strokeWidth="0.6"/><line x1="36" y1="48" x2="29" y2="68" strokeWidth="0.6"/><line x1="48" y1="48" x2="55" y2="68" strokeWidth="0.6"/><line x1="26" y1="68" x2="58" y2="68" strokeWidth="0.9"/></g></svg>;
+  },
+},
+{
+  id:'ami-initiales-stacked', name:'A·M·I empilé', description:'Trois initiales en colonne — monogramme vertical minimaliste',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 80" style={{ width:240*size, height:80*size, display:'block' }}><text x="12" y="28" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="400" letterSpacing="1">A</text><text x="12" y="52" fill={theme.accent} fontFamily={theme.serif} fontSize="22" fontWeight="400" letterSpacing="1">M</text><text x="12" y="76" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="400" letterSpacing="1">I</text><line x1="44" y1="6" x2="44" y2="78" stroke={theme.line} strokeWidth="0.5" opacity="0.25"/><text x="54" y="30" fill={theme.fg} fontFamily={theme.sans} fontSize="13" fontWeight="500" letterSpacing="4">AMI</text><text x="54" y="47" fill={theme.accent} fontFamily={theme.sans} fontSize="10" letterSpacing="3">AVOCATS</text><text x="54" y="62" fill={theme.fgSoft} fontFamily={theme.mono} fontSize="7" letterSpacing="2">PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 32 80" style={{ width:32*size, height:80*size, display:'block' }}><text x="4" y="28" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="400">A</text><text x="4" y="52" fill={theme.accent} fontFamily={theme.serif} fontSize="22" fontWeight="400">M</text><text x="4" y="76" fill={theme.fg} fontFamily={theme.serif} fontSize="22" fontWeight="400">I</text></svg>,
+},
+{
+  id:'ami-souligne', name:'AMI — soulignement', description:'AMI en sérif léger, soulignement partiel orange accent',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 72" style={{ width:240*size, height:72*size, display:'block' }}><text x="12" y="46" fill={theme.fg} fontFamily={theme.serif} fontSize="40" fontWeight="400" letterSpacing="8">AMI</text><line x1="42" y1="52" x2="78" y2="52" stroke={theme.accent} strokeWidth="2"/><text x="12" y="66" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="8" letterSpacing="5">AVOCATS · PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 100 56" style={{ width:100*size, height:56*size, display:'block' }}><text x="8" y="38" fill={theme.fg} fontFamily={theme.serif} fontSize="36" fontWeight="400" letterSpacing="6">AMI</text><line x1="36" y1="44" x2="68" y2="44" stroke={theme.accent} strokeWidth="2"/></svg>,
+},
+{
+  id:'a-hexagone', name:'A hexagone', description:'A dans un hexagone — structure, solidité, précision',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 72" style={{ width:240*size, height:72*size, display:'block' }}><polygon points="36,6 58,6 70,28 58,50 36,50 24,28" fill="none" stroke={theme.fg} strokeWidth="1.1"/><text x="47" y="36" fill={theme.fg} fontFamily={theme.serif} fontSize="24" fontWeight="400" textAnchor="middle">A</text><line x1="36" y1="6" x2="58" y2="6" stroke={theme.accent} strokeWidth="2"/><text x="84" y="28" fill={theme.fg} fontFamily={theme.sans} fontSize="16" fontWeight="500" letterSpacing="4">AMI</text><text x="84" y="44" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="8" letterSpacing="3">AVOCATS · PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 74 56" style={{ width:74*size, height:56*size, display:'block' }}><polygon points="36,4 58,4 70,28 58,52 36,52 24,28" fill="none" stroke={theme.fg} strokeWidth="1.1"/><text x="47" y="36" fill={theme.fg} fontFamily={theme.serif} fontSize="24" fontWeight="400" textAnchor="middle">A</text><line x1="36" y1="4" x2="58" y2="4" stroke={theme.accent} strokeWidth="2"/></svg>,
+},
+{
+  id:'ami-script', name:'AMI script', description:'AMI en italique libre — chaleureux, humain, accessible',
+  render: ({ theme, size=1 }) => <svg viewBox="0 0 240 80" style={{ width:240*size, height:80*size, display:'block' }}><text x="10" y="58" fill={theme.fg} fontFamily={theme.serif} fontSize="56" fontStyle="italic" fontWeight="300" letterSpacing="-2">ami</text><circle cx="118" cy="52" r="4" fill={theme.accent}/><text x="130" y="40" fill={theme.fg} fontFamily={theme.sans} fontSize="11" fontWeight="500" letterSpacing="3">AMI</text><text x="130" y="56" fill={theme.fgSoft} fontFamily={theme.sans} fontSize="8" letterSpacing="3">AVOCATS · PARIS</text></svg>,
+  compact: ({ theme, size=1 }) => <svg viewBox="0 0 130 70" style={{ width:130*size, height:70*size, display:'block' }}><text x="6" y="58" fill={theme.fg} fontFamily={theme.serif} fontSize="56" fontStyle="italic" fontWeight="300" letterSpacing="-2">ami</text><circle cx="115" cy="52" r="4" fill={theme.accent}/></svg>,
+},
+];
+
+window.LOGO_VARIANTS = LOGO_VARIANTS;
+</script>
+
+<!-- ── Hero & Nav ─────────────────────────────────────────────────────────────── -->
+<script type="text/babel" data-presets="react">
+
+const Nav = ({ theme, logo }) => {
+  const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  React.useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+  const navLinks = ['À propos', 'Expertises', 'Équipe', 'Articles', 'Contact'];
+  return (
+    <>
+      <header style={{ position:'fixed', top:0, left:0, right:0, zIndex:50, padding:scrolled?'14px 48px':'24px 48px', display:'flex', alignItems:'center', justifyContent:'space-between', background:'transparent', borderBottom:'1px solid transparent', transition:'padding 400ms cubic-bezier(.2,.7,.2,1)' }}>
+        <a href="#top" style={{ textDecoration:'none', display:'flex', alignItems:'center' }}>{logo.compact({ theme, size: 0.75 })}</a>
+        <button onClick={() => setMenuOpen(o => !o)} aria-label={menuOpen?'Fermer':'Ouvrir'} style={{ background:'transparent', border:'none', cursor:'pointer', padding:8, display:'flex', flexDirection:'column', gap:5, alignItems:'flex-end', zIndex:51 }}>
+          <span style={{ display:'block', height:'1.2px', width:22, background:theme.fg, transform:menuOpen?'translateY(6.2px) rotate(45deg)':'none', transition:'transform 300ms cubic-bezier(.4,0,.2,1)' }} />
+          <span style={{ display:'block', height:'1.2px', width:16, background:theme.fg, opacity:menuOpen?0:1, transition:'opacity 200ms' }} />
+          <span style={{ display:'block', height:'1.2px', width:22, background:theme.fg, transform:menuOpen?'translateY(-6.2px) rotate(-45deg)':'none', transition:'transform 300ms cubic-bezier(.4,0,.2,1)' }} />
+        </button>
+      </header>
+      <div style={{ position:'fixed', inset:0, zIndex:49, background:theme.bg, opacity:menuOpen?1:0, pointerEvents:menuOpen?'all':'none', transition:'opacity 400ms cubic-bezier(.4,0,.2,1)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
+        <nav style={{ textAlign:'center' }}>
+          {navLinks.map((item, i) => (
+            <div key={item} style={{ opacity:menuOpen?1:0, transform:menuOpen?'translateY(0)':'translateY(24px)', transition:`opacity 400ms ${80+i*60}ms, transform 400ms ${80+i*60}ms` }}>
+              <a href={`#${item.toLowerCase().replace(/[^a-z]/g,'')}`} onClick={() => setMenuOpen(false)} style={{ display:'block', fontFamily:theme.serif, fontSize:'clamp(36px,6vw,72px)', color:theme.fg, textDecoration:'none', lineHeight:1.25, padding:'6px 0', transition:'color 200ms, font-style 200ms' }}
+                onMouseEnter={e => { e.currentTarget.style.color=theme.accent; e.currentTarget.style.fontStyle='italic'; }}
+                onMouseLeave={e => { e.currentTarget.style.color=theme.fg; e.currentTarget.style.fontStyle='normal'; }}>{item}</a>
+            </div>
+          ))}
+        </nav>
+        <div style={{ position:'absolute', bottom:40, fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.fgSoft, textTransform:'uppercase', opacity:menuOpen?1:0, transition:'opacity 400ms 380ms' }}>contact@ami-avocats.fr <span style={{ color:theme.accent }}>·</span> Paris 8ᵉ</div>
+      </div>
+    </>
+  );
+};
+
+const EditorialHero = ({ theme }) => {
+  const [parallaxY, setParallaxY] = React.useState(0);
+  React.useEffect(() => {
+    let raf;
+    const onScroll = () => { raf = requestAnimationFrame(() => { setParallaxY(Math.min(Math.max(window.scrollY * 0.18, -60), 60)); }); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
+  }, []);
+  return (
+    <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'clamp(60px,10vh,120px) clamp(20px,5vw,48px) 40px', position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
+      <div style={{ position:'relative', zIndex:2, textAlign:'center' }}>
+        <Reveal delay={180}>
+          <div style={{ willChange:'transform', transform:`translateY(${parallaxY}px)` }}>
+            <h1 style={{ fontFamily:theme.serif, fontSize:'clamp(60px,12vw,180px)', lineHeight:0.95, fontWeight:400, letterSpacing:'-0.03em', color:theme.fg, margin:0 }}>
+              <span>AMI</span>{' '}<span style={{ fontStyle:'italic', color:theme.accent, fontSize:'0.7em', marginLeft:'0.05em' }}>avocats</span>
+            </h1>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
+const DarkHero = ({ theme }) => {
+  const mobile = window.innerWidth < 768;
+  return (
+  <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'clamp(80px,12vh,140px) clamp(20px,5vw,48px) 60px', display:'grid', gridTemplateColumns:mobile?'1fr':'1fr 1fr', gap:mobile?40:60, alignItems:'center', position:'relative' }}>
+    <div>
+      <Reveal delay={100}><div style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:3, color:theme.accent, textTransform:'uppercase', marginBottom:32 }}>── Cabinet d'avocats · Paris</div></Reveal>
+      <Reveal delay={200}><h1 style={{ fontFamily:theme.serif, fontSize:'clamp(48px,6vw,96px)', lineHeight:0.98, margin:0, fontWeight:400, letterSpacing:-1 }}>Le droit,<br/><span style={{ fontStyle:'italic', color:theme.accent }}>autrement</span><br/>ambitieux.</h1></Reveal>
+      <Reveal delay={400}><p style={{ fontFamily:theme.sans, fontSize:17, lineHeight:1.6, maxWidth:480, marginTop:36, color:theme.fgSoft }}>Cabinet dédié au droit des affaires et au droit immobilier.</p></Reveal>
+      <Reveal delay={600}><div style={{ marginTop:40 }}><a href="#expertises" style={{ padding:'16px 28px', border:`1px solid ${theme.fg}50`, color:theme.fg, textDecoration:'none', fontFamily:theme.sans, fontSize:13, letterSpacing:1.5, textTransform:'uppercase', display:'inline-block' }}>Nos expertises →</a></div></Reveal>
+    </div>
+    {!mobile && <Reveal delay={300} y={40}><div style={{ position:'relative', aspectRatio:'4/5', background:`repeating-linear-gradient(135deg,${theme.bgAlt},${theme.bgAlt} 12px,${theme.card} 12px,${theme.card} 24px)`, border:`1px solid ${theme.accent}40` }}><div style={{ position:'absolute', top:24, left:24, fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.accent }}>[ PHOTO CABINET ]</div></div></Reveal>}
+  </section>
+  );
+};
+
+const SplitHero = ({ theme }) => {
+  const mobile = window.innerWidth < 768;
+  return (
+  <section id="top" style={{ minHeight:'100vh', color:theme.fg, padding:'clamp(80px,12vh,140px) clamp(20px,5vw,48px) 60px', display:'grid', gridTemplateColumns:mobile?'1fr':'1.3fr 1fr', gap:mobile?32:80, alignItems:'center' }}>
+    <div>
+      <Reveal delay={100}><div style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:3, color:theme.accent, textTransform:'uppercase', marginBottom:40 }}>Cabinet d'avocats · Paris</div></Reveal>
+      <Reveal delay={200}><h1 style={{ fontFamily:theme.serif, fontSize:'clamp(52px,7vw,120px)', lineHeight:0.95, margin:0, fontWeight:400, letterSpacing:-2 }}>Avocats de ceux<br/>qui <span style={{ fontStyle:'italic', color:theme.accent }}>bâtissent</span>.</h1></Reveal>
+      <Reveal delay={400}><p style={{ fontFamily:theme.sans, fontSize:18, lineHeight:1.6, maxWidth:540, marginTop:36, color:theme.fgSoft }}>Droit des affaires et immobilier pour entrepreneurs et promoteurs.</p></Reveal>
+      <Reveal delay={600}><div style={{ marginTop:48 }}><a href="#expertises" style={{ color:theme.fg, textDecoration:'none', fontFamily:theme.sans, fontSize:13, letterSpacing:1.5, textTransform:'uppercase', borderBottom:`1px solid ${theme.accent}`, paddingBottom:4 }}>Voir nos expertises →</a></div></Reveal>
+    </div>
+    {!mobile && <Reveal delay={300} y={40}><div style={{ aspectRatio:'3/4', background:`repeating-linear-gradient(135deg,${theme.bgAlt},${theme.bgAlt} 12px,${theme.card} 12px,${theme.card} 24px)` }}><div style={{ padding:24, fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.fgSoft }}>[ PORTRAIT ]</div></div></Reveal>}
+  </section>
+  );
+};
+
+const Hero = ({ theme, logo }) => {
+  const t = theme.heroTreatment;
+  return (
+    <>
+{t === 'dark-hero' && <DarkHero theme={theme} logo={logo} />}
+      {t === 'split' && <SplitHero theme={theme} logo={logo} />}
+      {(t === 'editorial' || !t) && <EditorialHero theme={theme} logo={logo} />}
+    </>
+  );
+};
+
+window.Nav = Nav;
+window.Hero = Hero;
+</script>
+
+<!-- ── Sections ───────────────────────────────────────────────────────────────── -->
+<script type="text/babel" data-presets="react">
+const GridBackground = ({ theme }) => (
+  <div style={{ position:'absolute', inset:0, pointerEvents:'none', overflow:'hidden', zIndex:0 }}>
+    <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }} preserveAspectRatio="none">
+      {[25,50,75].map(pct => <line key={pct} x1={`${pct}%`} y1="0" x2={`${pct}%`} y2="100%" stroke={theme.line} strokeWidth="0.3" opacity="0.08"/>)}
+    </svg>
+  </div>
+);
+
+const useCountUp = (target, duration=1800) => {
+  const [count, setCount] = React.useState(0);
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      const start = performance.now();
+      const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+      const tick = now => { const e = Math.min((now-start)/duration,1); setCount(Math.round(ease(e)*target)); if (e<1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }, { threshold:0.3 });
+    if (ref.current) io.observe(ref.current);
+    return () => io.disconnect();
+  }, [target, duration]);
+  return [ref, count];
+};
+
+const About = ({ theme }) => {
+  const mobile = window.innerWidth < 768;
+  const stats = [{ target:8, suffix:'+', label:"Années d'expertise" }, { target:200, suffix:'+', label:'Dossiers traités' }, { target:3, suffix:'', label:'Avocats associés' }];
+  const StatItem = ({ target, suffix, label }) => { const [ref, count] = useCountUp(target); return <div ref={ref}><div style={{ fontFamily:theme.serif, fontSize:48, color:theme.accent, lineHeight:1, marginBottom:8 }}>{count}{suffix}</div><div style={{ fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.fgSoft, textTransform:'uppercase' }}>{label}</div></div>; };
+  return (
+    <section id="apropos" style={{ color:theme.fg, padding:'clamp(40px,7vw,72px) clamp(16px,5vw,40px)', position:'relative', overflow:'hidden' }}>
+      <GridBackground theme={theme}/>
+      <div style={{ maxWidth:1280, margin:'0 auto', position:'relative', zIndex:1 }}>
+        <div style={{ display:'grid', gridTemplateColumns:mobile?'1fr':'1fr 1.4fr', gap:mobile?40:80, alignItems:'start' }}>
+          <Reveal delay={100}><h2 style={{ fontFamily:theme.serif, fontSize:'clamp(40px,5vw,72px)', lineHeight:1, margin:0, fontWeight:400, letterSpacing:-1.5 }}>Un engagement <span style={{ fontStyle:'italic', color:theme.accent }}>sans faille</span>.</h2></Reveal>
+          <Reveal delay={250}>
+            <div style={{ fontFamily:theme.sans, fontSize:17, lineHeight:1.7, color:theme.fg, background:'rgba(255,170,51,0.55)', border:'1px solid rgba(255,200,100,0.3)', padding:'24px 28px' }}>
+              <p style={{ margin:'0 0 24px' }}>Le cabinet AMI accompagne entrepreneurs, investisseurs et promoteurs dans la réalisation de leurs projets — de la structuration initiale à la gestion des contentieux.</p>
+              <p style={{ margin:'0 0 24px', color:theme.fgSoft }}>Nous croyons en une approche personnalisée, fondée sur l'écoute et la compréhension fine des enjeux propres à chaque dossier.</p>
+              <div style={{ marginTop:48, display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:mobile?16:32, borderTop:`1px solid ${theme.line}22`, paddingTop:32 }}>
+                {stats.map(s => <StatItem key={s.label} {...s}/>)}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Expertises = ({ theme }) => {
+  const mobile = window.innerWidth < 768;
+  const catColor = cat => cat==='Affaires' ? theme.accent : cat==='Immobilier' ? `${theme.fg}55` : `${theme.fg}20`;
+  const cards = [
+    { id:'corporate', num:'01', cat:'Affaires', title:'Corporate & M&A', tags:['M&A','Pactes','Gouvernance','Levées de fonds'] },
+    { id:'immo-dev', num:'02', cat:'Immobilier', title:'Développement immobilier', tags:['VEFA','Urbanisme','Baux','Montages'] },
+    { id:'contentieux', num:'03', cat:'Général', title:'Contentieux', tags:['Litiges','Arbitrage','Médiation','Plaidoirie'] },
+    { id:'baux', num:'04', cat:'Immobilier', title:'Baux & Asset Management', tags:['Bail commercial','Asset Management','Gestion locative'] },
+    { id:'difficultes', num:'05', cat:'Affaires', title:'Entreprises en difficultés', tags:['Prévention','Sauvegarde','Redressement','Liquidation'] },
+    { id:'investissement', num:'06', cat:'Immobilier', title:'Investissement immobilier', tags:['Structuration','Due diligence','Financement','Cession'] },
+  ];
+  const [hovered, setHovered] = React.useState(null);
+  return (
+    <section id="expertises" style={{ color:theme.fg, padding:'clamp(40px,7vw,72px) clamp(16px,5vw,40px)', position:'relative', overflow:'hidden' }}>
+      <GridBackground theme={theme}/>
+      <div style={{ maxWidth:1280, margin:'0 auto', position:'relative', zIndex:1 }}>
+        <Reveal delay={100}><h2 style={{ fontFamily:theme.serif, fontSize:'clamp(28px,5vw,72px)', lineHeight:1.1, margin:'0 0 40px', fontWeight:400, letterSpacing:-1.5 }}>Au service des <span style={{ fontStyle:'italic', color:theme.accent }}>acteurs de l'immobilier</span>.</h2></Reveal>
+        <div style={{ display:'grid', gridTemplateColumns:mobile?'1fr':'repeat(3,1fr)', gap:2 }}>
+          {cards.map((card, i) => {
+            const isHov = hovered===i, cc = catColor(card.cat);
+            return (
+              <Reveal key={card.id} delay={i*60} y={20}>
+                <div onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)} style={{ padding:'28px 24px 24px 28px', background:isHov?theme.fg:'rgba(255,170,51,0.55)', border:'1px solid rgba(255,200,100,0.3)', position:'relative', overflow:'hidden', minHeight:140, display:'flex', flexDirection:'column', gap:10, transition:'background 400ms cubic-bezier(.2,.7,.2,1)', cursor:'default' }}>
+                  <div style={{ position:'absolute', left:0, top:0, bottom:0, width:2, background:cc, opacity:isHov?0:1, transition:'opacity 300ms' }} />
+                  <h3 style={{ fontFamily:theme.serif, fontSize:'clamp(18px,1.8vw,26px)', margin:0, fontWeight:400, lineHeight:1.1, color:isHov?theme.bg:theme.fg, transition:'color 400ms' }}>{card.title}</h3>
+                  <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
+                    {card.tags.map(t => <span key={t} style={{ fontFamily:theme.mono, fontSize:9, letterSpacing:0.5, padding:'2px 7px', border:`1px solid ${isHov?theme.bg+'40':theme.line+'28'}`, color:isHov?`${theme.bg}cc`:theme.fgSoft, textTransform:'uppercase', transition:'border-color 400ms, color 400ms' }}>{t}</span>)}
+                  </div>
+                  <div style={{ position:'absolute', bottom:16, right:20, fontFamily:theme.serif, fontSize:18, color:isHov?theme.accent:'transparent', transform:isHov?'translateX(0)':'translateX(-6px)', transition:'color 300ms, transform 300ms' }}>→</div>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Team = ({ theme }) => {
+  const mobile = window.innerWidth < 768;
+  const members = [
+    { name:'Marwan Tahar', role:'Avocat · Droit des affaires', bio:"Spécialisé en opérations de M&A, structuration de sociétés et pactes d'associés.", photo:'assets/MIA.jpg' },
+    { name:'Thomas Sadaka', role:'Avocat · Droit immobilier', bio:'Expert en promotion immobilière, VEFA et montages complexes d\'investissement.', photo:'assets/TIA.jpg' },
+    { name:'Simon Roumégoux', role:'Avocat · Conseil stratégique', bio:'Intervient en restructuration, transmission d\'entreprise et due diligence.', photo:'assets/SIA.jpg' },
+  ];
+  return (
+    <section id="equipe" style={{ color:theme.fg, padding:'clamp(40px,7vw,72px) clamp(16px,5vw,40px)' }}>
+      <div style={{ maxWidth:1280, margin:'0 auto', position:'relative', zIndex:1 }}>
+        <Reveal delay={100}>
+          <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between', marginBottom:mobile?40:80, gap:24, flexWrap:'wrap' }}>
+            <h2 style={{ fontFamily:theme.serif, fontSize:'clamp(40px,5vw,72px)', lineHeight:1, margin:0, fontWeight:400, letterSpacing:-1.5 }}><span style={{ fontStyle:'italic', color:theme.accent }}>ÉQUIPE</span></h2>
+            <p style={{ fontFamily:theme.sans, fontSize:16, color:theme.fgSoft, margin:0, maxWidth:400, lineHeight:1.6 }}>Au-delà de l'avocat, nous sommes les partenaires juridiques des entrepreneurs.</p>
+          </div>
+        </Reveal>
+        <div style={{ display:'grid', gridTemplateColumns:mobile?'1fr':'repeat(3,1fr)', gap:mobile?32:40 }}>
+          {members.map((m, i) => (
+            <Reveal key={m.name} delay={i*150} y={40}>
+              <div>
+                <div style={{ marginBottom:24, aspectRatio:'3/4', width:'100%', overflow:'hidden' }}>
+                  <img src={m.photo} alt={m.name} style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}/>
+                </div>
+                <div style={{ background:'rgba(255,170,51,0.55)', border:'1px solid rgba(255,200,100,0.3)', padding:'16px 20px' }}>
+                  <h3 style={{ fontFamily:theme.serif, fontSize:28, margin:0, fontWeight:400 }}>{m.name}</h3>
+                  <div style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:2, color:theme.accent, textTransform:'uppercase', marginTop:8 }}>{m.role}</div>
+                  <p style={{ fontFamily:theme.sans, fontSize:15, color:theme.fgSoft, lineHeight:1.6, marginTop:16 }}>{m.bio}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const InkCanvas = ({ sceneIdx, bg }) => {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const DPR = window.devicePixelRatio || 1;
+    const W = 360 * DPR, H = 460 * DPR;
+    canvas.width = W; canvas.height = H;
+    const s = Math.min(W, H) / 800;
+    const cx = W/2, cy = H/2;
+    let rafId, lastFrame = 0, p = 0, dissolve = 0, dissolving = false;
+    const FPS = 12, FRAME_DUR = 1000/FPS, SCENE_DUR = 140;
+    const ic  = a => `rgba(148,118,168,${a.toFixed(3)})`;
+    const ic2 = a => `rgba(185,150,205,${a.toFixed(3)})`;
+
+    function bLine(x0,y0,x1,y1,mw,al,wob=3) {
+      const n = Math.max(8, Math.round(Math.hypot(x1-x0,y1-y0)/8));
+      for(let i=0;i<n;i++){
+        const t0=i/n,t1=(i+1)/n,tap=Math.sin((t0+t1)/2*Math.PI);
+        ctx.save();ctx.strokeStyle=ic(al*tap);ctx.lineWidth=mw*tap;ctx.lineCap='round';
+        ctx.beginPath();
+        ctx.moveTo(x0+(x1-x0)*t0+Math.sin(t0*17)*wob,y0+(y1-y0)*t0+Math.cos(t0*13)*wob*.5);
+        ctx.lineTo(x0+(x1-x0)*t1+Math.sin(t1*17)*wob,y0+(y1-y0)*t1+Math.cos(t1*13)*wob*.5);
+        ctx.stroke();ctx.restore();
+      }
+    }
+    function bCurve(x0,y0,cpx,cpy,x1,y1,mw,al) {
+      const B=(t,a,b,c)=>(1-t)**2*a+2*(1-t)*t*b+t*t*c;
+      for(let i=0;i<24;i++){
+        const t0=i/24,t1=(i+1)/24,tap=Math.sin((t0+t1)/2*Math.PI);
+        ctx.save();ctx.strokeStyle=ic(al*tap);ctx.lineWidth=mw*tap;ctx.lineCap='round';
+        ctx.beginPath();ctx.moveTo(B(t0,x0,cpx,x1),B(t0,y0,cpy,y1));ctx.lineTo(B(t1,x0,cpx,x1),B(t1,y0,cpy,y1));
+        ctx.stroke();ctx.restore();
+      }
+    }
+    function blot(bx,by,r,al) {
+      ctx.save();
+      for(let i=0;i<3;i++){
+        ctx.beginPath();
+        for(let j=0;j<=14;j++){const ang=(j/14)*Math.PI*2,jit=r*(.6+Math.random()*.7);j?ctx.lineTo(bx+Math.cos(ang)*jit,by+Math.sin(ang)*jit*(.7+Math.random()*.4)):ctx.moveTo(bx+Math.cos(ang)*jit,by+Math.sin(ang)*jit*(.7+Math.random()*.4));}
+        ctx.closePath();ctx.fillStyle=ic(al*(.3-i*.08));ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function drawBuilding(p) {
+      const h=280*s,w=160*s,floors=7,fH=h/floors,vp=Math.min(1,p*2.5);
+      bLine(cx-w/2,cy+h/2,cx-w/2,cy+h/2-h*vp,3*s,.7);bLine(cx+w/2,cy+h/2,cx+w/2,cy+h/2-h*vp,3*s,.7);bLine(cx,cy+h/2,cx,cy+h/2-h*vp,2*s,.4);
+      const fp=Math.max(0,(p-.3)*2),vF=Math.floor(fp*floors);
+      for(let i=0;i<=vF;i++){const fy=cy+h/2-i*fH,pw=i<vF?w:w*(fp*floors-vF);bLine(cx-w/2,fy,cx-w/2+pw,fy,2*s,.55);}
+      const wp=Math.max(0,(p-.55)*3),wC=3,wR=floors-1,ww=(w*.55)/wC,wh=fH*.45,wx0=cx-w*.25,wy0=cy+h/2-fH;
+      for(let r=0;r<wR;r++) for(let c=0;c<wC;c++){if((r*wC+c)/(wR*wC)>wp)continue;ctx.save();ctx.strokeStyle=ic2(.55);ctx.lineWidth=1.2*s;ctx.strokeRect(wx0+c*(ww+ww*.3)-w*.1,wy0-r*fH-wh,ww,wh);ctx.restore();}
+    }
+    function drawHandshake(p) {
+      const p1=Math.min(1,p*2.2),p2=Math.min(1,Math.max(0,p*2.2-.3));
+      bLine(cx-220*s,cy+60*s,cx-20*s,cy,18*s,.55*p1,4);bLine(cx+220*s,cy+60*s,cx+20*s,cy,18*s,.55*p2,4);
+      if(p>.45){const hp=Math.min(1,(p-.45)*4);ctx.save();ctx.strokeStyle=ic(.65*hp);ctx.lineWidth=12*s;ctx.lineCap='round';ctx.beginPath();ctx.arc(cx,cy+10*s,22*s,-Math.PI*.3,Math.PI*.3);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy-10*s,22*s,Math.PI*.7,Math.PI*1.3);ctx.stroke();ctx.restore();for(let i=0;i<5;i++){const a=(i/5)*Math.PI*2;blot(cx+Math.cos(a)*(30+i*12)*s,cy+Math.sin(a)*(30+i*12)*s,(3+i)*s*.5,.15*hp);}}
+    }
+    function drawGavel(p) {
+      const p1=Math.min(1,p*2);bLine(cx-80*s,cy+60*s,cx-80*s+(160*s)*p1,cy+60*s-(120*s)*p1,9*s,.7,3);
+      if(p>.4){const hp=Math.min(1,(p-.4)*3),hx=cx+30*s,hy=cy-30*s,hw=70*s,hh=28*s;ctx.save();ctx.strokeStyle=ic(.7*hp);ctx.lineWidth=4*s;ctx.lineCap='round';ctx.strokeRect(hx-hw/2,hy-hh/2,hw*hp,hh);ctx.restore();bLine(hx-hw/2,hy-hh/2,hx-hw/2,hy+hh/2,4*s,.7*hp);}
+      if(p>.65){const sp=Math.min(1,(p-.65)*4);bLine(cx-80*s,cy+90*s,cx+80*s,cy+90*s,6*s,.6*sp,2);bLine(cx-65*s,cy+90*s,cx-65*s,cy+110*s,4*s,.5*sp);bLine(cx+65*s,cy+90*s,cx+65*s,cy+110*s,4*s,.5*sp);bLine(cx-65*s,cy+110*s,cx+65*s,cy+110*s,4*s,.5*sp);}
+    }
+    function drawQuill(p) {
+      const qp=Math.min(1,p*1.8);bLine(cx+80*s,cy-120*s,cx-40*s,cy+80*s,2.5*s,.75*qp,2);
+      if(qp>.2) for(let i=0;i<8;i++){const t=i/8;if(t>qp-.2)continue;const bx=cx+80*s-(120*s)*t,by=cy-120*s+(200*s)*t;bCurve(bx,by,bx-25*s,by-15*s,bx-40*s,by-8*s,1.8*s,.45);bCurve(bx,by,bx+20*s,by-12*s,bx+32*s,by-4*s,1.8*s,.45);}
+      const lp=Math.max(0,(p-.35)*2.2),lx=cx-140*s,lS=cy-20*s;
+      for(let i=0;i<5;i++){const lpr=Math.min(1,Math.max(0,lp-i*.18));bLine(lx,lS+i*28*s,lx+(170-i*10)*s*lpr,lS+i*28*s,1.5*s,.45,1.5);}
+    }
+    function drawScales(p) {
+      const pp=Math.min(1,p*2);bLine(cx,cy+100*s,cx,cy-80*s*pp,4*s,.7,2);
+      if(p>.3){const bp=Math.min(1,(p-.3)*3);bLine(cx-130*s*bp,cy-80*s,cx+130*s*bp,cy-80*s,3*s,.65,2);}
+      if(p>.55){const cp=Math.min(1,(p-.55)*3),sw=Math.sin(p*Math.PI*4)*12*s,lx=cx-130*s,rx=cx+130*s,ch=55*s;
+        bLine(lx,cy-80*s,lx+sw*.3,cy-80*s+ch*cp,1.5*s,.55);if(cp>.5)bLine(lx-40*s+sw*.5,cy-80*s+ch,lx+40*s+sw*.5,cy-80*s+ch,3*s,.6*cp,1.5);
+        bLine(rx,cy-80*s,rx-sw*.3,cy-80*s+ch*cp,1.5*s,.55);if(cp>.5)bLine(rx-40*s-sw*.5,cy-80*s+ch,rx+40*s-sw*.5,cy-80*s+ch,3*s,.6*cp,1.5);}
+      if(p>.75){const fp=Math.min(1,(p-.75)*4);bLine(cx-60*s,cy+100*s,cx+60*s,cy+100*s,4*s,.6*fp,2);}
+    }
+    function drawSkyline(p) {
+      const blds=[{x:-220,w:45,h:140},{x:-165,w:38,h:200},{x:-118,w:52,h:160},{x:-56,w:40,h:240},{x:-8,w:55,h:180},{x:56,w:42,h:220},{x:108,w:50,h:155},{x:168,w:38,h:185}];
+      const skyP=Math.min(1,p*1.8);
+      blds.forEach((b,idx)=>{const bp=Math.min(1,Math.max(0,skyP-idx*.08)),bx=cx+b.x*s,by=cy+80*s,bh=b.h*s*bp;ctx.save();ctx.strokeStyle=ic(.65);ctx.lineWidth=2*s;ctx.strokeRect(bx*.85+cx*.15-b.w*s/2,by-bh,b.w*s,bh);ctx.restore();});
+      bLine(cx-260*s,cy+80*s,cx+260*s,cy+80*s,2.5*s,.52,2);
+    }
+
+    const SCENES=[drawBuilding,drawHandshake,drawGavel,drawQuill,drawScales,drawSkyline];
+    const scene=sceneIdx%SCENES.length;
+
+    function render(now) {
+      rafId=requestAnimationFrame(render);
+      if(now-lastFrame<FRAME_DUR)return;
+      lastFrame=now;
+      const adv=1/SCENE_DUR;
+      if(!dissolving){p=Math.min(1,p+adv);if(p>=1){dissolving=true;dissolve=0;}}
+      else{dissolve=Math.min(1,dissolve+adv*1.2);if(dissolve>=1){p=0;dissolve=0;dissolving=false;}}
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle=bg||'#FAF6EE';ctx.fillRect(0,0,W,H);
+      ctx.save();ctx.globalAlpha=dissolving?Math.max(0,1-dissolve*1.3):1;
+      SCENES[scene](p);
+      ctx.restore();
+    }
+    rafId=requestAnimationFrame(render);
+    return ()=>cancelAnimationFrame(rafId);
+  }, [sceneIdx,bg]);
+  return <canvas ref={ref} style={{width:'100%',height:'100%',display:'block',position:'absolute',inset:0}} />;
+};
+
+const Articles = ({ theme }) => {
+  const items = [
+    { id:'art1', categorie:'Droit des affaires', date:'1 MAR 2026', lecture:'6 min',
+      titre:'Créer son entreprise : les étapes juridiques essentielles',
+      extrait:'De la forme sociale au pacte d\'associés, le choix de la structure juridique conditionne l\'avenir de votre projet.',
+      image:'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80' },
+    { id:'art2', categorie:'Droit immobilier', date:'15 FÉV 2026', lecture:'4 min',
+      titre:'Nouvelles obligations déclaratives pour les SCI en 2026',
+      extrait:'La réforme fiscale introduit de nouvelles exigences de transparence pour les sociétés civiles immobilières.',
+      image:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80' },
+    { id:'art3', categorie:'Corporate & M&A', date:'20 JAN 2026', lecture:'8 min',
+      titre:'Due diligence en M&A : les points de vigilance juridiques',
+      extrait:'La réussite d\'une opération de fusion-acquisition repose sur une analyse rigoureuse des risques en amont.',
+      image:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
+    { id:'art4', categorie:'Droit immobilier', date:'10 JAN 2026', lecture:'5 min',
+      titre:'ZAN : les enjeux pour les promoteurs immobiliers',
+      extrait:'L\'objectif Zéro Artificialisation Nette à horizon 2050 redessine les équilibres économiques de la promotion.',
+      image:'https://images.unsplash.com/photo-1536735561749-fc87494598cb?w=800&q=80' },
+    { id:'art5', categorie:'Contentieux', date:'5 DÉC 2025', lecture:'7 min',
+      titre:'Arbitrage commercial international : avantages et stratégies',
+      extrait:'Face aux litiges transfrontaliers, l\'arbitrage s\'impose comme alternative efficace à la justice étatique.',
+      image:'assets/images/actu1.jpg' },
+    { id:'art6', categorie:'Droit des affaires', date:'18 NOV 2025', lecture:'5 min',
+      titre:'Pacte d\'actionnaires : les clauses essentielles à négocier',
+      extrait:'Un pacte d\'actionnaires solide anticipe les conflits entre associés et sécurise la gouvernance de l\'entreprise.',
+      image:'assets/images/actu2.jpg' },
+  ];
+
+  const CARD = 360, GAP = 24;
+  const [current, setCurrent] = React.useState(0);
+  const [atStart, setAtStart] = React.useState(true);
+  const [atEnd, setAtEnd] = React.useState(false);
+  const [hovId, setHovId] = React.useState(null);
+  const trackRef = React.useRef(null);
+
+  const scrollStep = (dir) => {
+    const el = trackRef.current;
+    if (el) el.scrollBy({ left: dir * (CARD + GAP), behavior: 'smooth' });
+  };
+
+  const goTo = React.useCallback((idx) => {
+    const el = trackRef.current;
+    const clamped = Math.max(0, Math.min(idx, items.length - 1));
+    if (el) el.scrollTo({ left: clamped * (CARD + GAP), behavior: 'smooth' });
+  }, []);
+
+  React.useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    let t;
+    const onScroll = () => {
+      const sl = el.scrollLeft;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      setAtStart(sl <= 4);
+      setAtEnd(sl >= maxScroll - 4);
+      clearTimeout(t);
+      t = setTimeout(() => setCurrent(Math.round(sl / (CARD + GAP))), 60);
+    };
+    onScroll();
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => { el.removeEventListener('scroll', onScroll); clearTimeout(t); };
+  }, []);
+
+  const btnStyle = (can) => ({
+    flexShrink:0, width:52, height:52, borderRadius:'50%',
+    background:'rgba(10,6,0,0.72)',
+    color:'#fff', border:'1px solid rgba(255,255,255,0.18)',
+    cursor:can?'pointer':'not-allowed', opacity:can?1:0.22,
+    fontSize:20, display:'flex', alignItems:'center', justifyContent:'center',
+    transition:'opacity 200ms, background 200ms',
+  });
+
+  return (
+    <section id="articles" style={{ color:theme.fg, padding:'80px 0 64px', position:'relative', overflow:'hidden' }}>
+      <style>{`#ami-actu-track::-webkit-scrollbar{display:none}`}</style>
+      <GridBackground theme={theme}/>
+
+      {/* ── en-tête ── */}
+      <div style={{ maxWidth:1280, margin:'0 auto', padding:'0 40px', position:'relative', zIndex:1, marginBottom:44 }}>
+        <Reveal delay={100}>
+          <div>
+            <div style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:3, color:theme.accent, textTransform:'uppercase', marginBottom:14 }}>── Actualités & Publications</div>
+            <h2 style={{ fontFamily:theme.serif, fontSize:'clamp(40px,5vw,68px)', lineHeight:1, margin:0, fontWeight:400, letterSpacing:-1.5 }}>
+              AMI <span style={{ fontStyle:'italic', color:theme.accent }}>Actualités</span>
+            </h2>
+          </div>
+        </Reveal>
+      </div>
+
+      {/* ── carrousel ── */}
+      <div style={{ display:'flex', alignItems:'center', gap:0 }}>
+        <div style={{ flexShrink:0, padding:'0 16px' }}>
+          <button onClick={() => scrollStep(-1)} disabled={atStart} aria-label="Article précédent"
+            style={btnStyle(!atStart)}>←</button>
+        </div>
+
+        <div id="ami-actu-track" ref={trackRef}
+          style={{ flex:1, display:'flex', gap:GAP, overflowX:'auto', scrollSnapType:'x mandatory', scrollbarWidth:'none', WebkitOverflowScrolling:'touch', paddingBottom:4 }}>
+          {items.map((item, i) => {
+            const hov = hovId === item.id;
+            return (
+              <div key={item.id} style={{ minWidth:CARD, maxWidth:CARD, flexShrink:0, scrollSnapAlign:'start' }}>
+                <a href="#" style={{ display:'block', textDecoration:'none', color:'inherit' }}
+                  onMouseEnter={() => setHovId(item.id)} onMouseLeave={() => setHovId(null)}>
+                  <div style={{ position:'relative', height:460, overflow:'hidden' }}>
+                    <img src={item.image} alt={item.titre} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', transition:'transform 400ms ease', transform:hov?'scale(1.04)':'scale(1)' }}/>
+                    <div style={{ position:'absolute', bottom:0, left:0, right:0, padding:28, background:'none' }}>
+                      <div style={{ fontFamily:theme.mono, fontSize:9, letterSpacing:3, color:theme.accent, textTransform:'uppercase', marginBottom:10 }}>{item.categorie}</div>
+                      <h3 style={{ fontFamily:theme.serif, fontSize:21, lineHeight:1.2, color:'#fff', margin:'0 0 10px', fontWeight:400, textShadow:'0 2px 8px rgba(0,0,0,0.8)' }}>{item.titre}</h3>
+                      <p style={{ fontFamily:theme.sans, fontSize:13, lineHeight:1.55, color:'rgba(255,255,255,0.9)', margin:'0 0 18px', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical', overflow:'hidden', textShadow:'0 1px 6px rgba(0,0,0,0.8)' }}>{item.extrait}</p>
+                      <div style={{ display:'flex', alignItems:'center', gap:7, fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:'#fff', textTransform:'uppercase', textShadow:'0 1px 6px rgba(0,0,0,0.8)' }}>
+                        <span>Lire la suite</span>
+                        <span style={{ display:'inline-block', transform:hov?'translateX(5px)':'none', transition:'transform 220ms' }}>→</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ marginTop:13, display:'flex', justifyContent:'space-between', fontFamily:theme.mono, fontSize:9, letterSpacing:2, color:theme.fgSoft, textTransform:'uppercase', background:'rgba(255,170,51,0.55)', border:'1px solid rgba(255,200,100,0.3)', padding:'6px 10px' }}>
+                    <span>{item.date}</span><span>{item.lecture} lecture</span>
+                  </div>
+                </a>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ flexShrink:0, padding:'0 16px' }}>
+          <button onClick={() => scrollStep(1)} disabled={atEnd} aria-label="Article suivant"
+            style={btnStyle(!atEnd)}>→</button>
+        </div>
+      </div>
+
+      {/* ── dots ── */}
+      <div style={{ display:'flex', justifyContent:'center', gap:8, marginTop:30, position:'relative', zIndex:1 }}>
+        {items.map((_, i) => (
+          <button key={i} onClick={() => goTo(i)}
+            style={{ width:7, height:7, borderRadius:'50%', border:'none', cursor:'pointer', padding:0, background:i===current?theme.accent:`${theme.fg}30`, transition:'background 280ms, transform 200ms', transform:i===current?'scale(1.45)':'scale(1)' }}/>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const Contact = ({ theme }) => {
+  const [sent, setSent] = React.useState(false);
+  const handleSubmit = e => { e.preventDefault(); setSent(true); setTimeout(() => setSent(false), 4000); e.target.reset(); };
+  const inp = { width:'100%', padding:'10px 0', border:'none', borderBottom:`1px solid ${theme.line}44`, background:'transparent', fontFamily:theme.sans, fontSize:15, color:theme.fg, outline:'none' };
+  return (
+    <section id="contact" style={{ color:theme.fg, padding:'56px 40px 48px' }}>
+      <div style={{ maxWidth:1120, margin:'0 auto', position:'relative', zIndex:1, background:'rgba(255,170,51,0.55)', border:'1px solid rgba(255,200,100,0.3)', padding:'32px 40px' }}>
+        <Reveal delay={100}>
+          <div style={{ marginBottom:32 }}>
+            <div style={{ fontFamily:theme.mono, fontSize:10, letterSpacing:3, color:theme.accent, textTransform:'uppercase', marginBottom:10 }}>── Nous contacter</div>
+            <h2 style={{ fontFamily:theme.serif, fontSize:'clamp(30px,4vw,56px)', lineHeight:0.95, margin:'0 0 24px', fontWeight:400, letterSpacing:-1.5 }}>Parlons de votre <span style={{ fontStyle:'italic', color:theme.accent }}>projet</span>.</h2>
+            <div style={{ display:'flex', gap:40, flexWrap:'wrap', paddingBottom:24, borderBottom:`1px solid ${theme.line}22` }}>
+              <a href="mailto:contact@ami-avocats.fr" style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:1.5, color:theme.fg, textDecoration:'none', textTransform:'uppercase', borderBottom:`1px solid ${theme.accent}`, paddingBottom:2 }}>contact@ami-avocats.fr</a>
+              <a href="tel:+33123456789" style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:1.5, color:theme.fg, textDecoration:'none', textTransform:'uppercase', borderBottom:`1px solid ${theme.accent}`, paddingBottom:2 }}>+33 1 23 45 67 89</a>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={200}>
+          <form onSubmit={handleSubmit}>
+            {sent && <div style={{ marginBottom:16, padding:'12px 16px', background:theme.accent, color:'#fff', fontFamily:theme.sans, fontSize:13 }}>✓ Message envoyé — nous vous répondrons sous 24h.</div>}
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0 32px' }}>
+              {[{ label:'Nom', type:'text', name:'name' }, { label:'Email', type:'email', name:'email' }].map(f => (
+                <label key={f.name} style={{ display:'block', marginBottom:20 }}>
+                  <div style={{ fontFamily:theme.mono, fontSize:9, letterSpacing:2, color:theme.fgSoft, textTransform:'uppercase', marginBottom:6 }}>{f.label}</div>
+                  <input type={f.type} name={f.name} required style={inp} onFocus={e => e.target.style.borderBottomColor=theme.accent} onBlur={e => e.target.style.borderBottomColor=`${theme.line}44`}/>
+                </label>
+              ))}
+            </div>
+            <label style={{ display:'block', marginBottom:24 }}>
+              <div style={{ fontFamily:theme.mono, fontSize:9, letterSpacing:2, color:theme.fgSoft, textTransform:'uppercase', marginBottom:6 }}>Message</div>
+              <textarea rows={3} required style={{ ...inp, resize:'none' }} onFocus={e => e.target.style.borderBottomColor=theme.accent} onBlur={e => e.target.style.borderBottomColor=`${theme.line}44`}/>
+            </label>
+            <button type="submit" style={{ padding:'13px 32px', background:theme.accent, color:'#fff', border:'none', fontFamily:theme.sans, fontSize:12, letterSpacing:2, textTransform:'uppercase', cursor:'pointer', fontWeight:500 }}>Envoyer →</button>
+          </form>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
+const Footer = ({ theme, logo }) => (
+  <footer style={{ background:'transparent', color:theme.fg, padding:'24px 40px', borderTop:`1px solid ${theme.line}22` }}>
+    <div style={{ maxWidth:1280, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:16 }}>
+      {logo.compact({ theme, size:0.75 })}
+      <div style={{ display:'flex', gap:24, flexWrap:'wrap', alignItems:'center' }}>
+        {['Mentions légales','Politique de confidentialité','RGPD','Déontologie'].map(item => (
+          <a key={item} href="#" style={{ fontFamily:theme.mono, fontSize:9, letterSpacing:1.5, color:theme.fgSoft, textDecoration:'none', textTransform:'uppercase' }}>{item}</a>
+        ))}
+      </div>
+      <span className="glass-text" style={{ fontFamily:theme.mono, fontSize:9, letterSpacing:2, textTransform:'uppercase' }}>© 2026 AMI Avocats · Paris</span>
+    </div>
+  </footer>
+);
+
+window.About = About;
+window.Expertises = Expertises;
+window.Team = Team;
+window.Articles = Articles;
+window.Contact = Contact;
+window.Footer = Footer;
+</script>
+
+
+<!-- ── Tweaks panel ───────────────────────────────────────────────────────────── -->
+<script type="text/babel" data-presets="react">
+const TweaksPanel = ({ themeIdx, setThemeIdx, logoIdx, setLogoIdx, visible, onClose }) => {
+  if (!visible) return null;
+  const themes = window.AMI_THEMES, logos = window.LOGO_VARIANTS;
+  return (
+    <div style={{ position:'fixed', bottom:24, right:24, zIndex:100, width:340, background:'#0f0f0f', color:'#fff', border:'1px solid #333', borderRadius:8, boxShadow:'0 24px 60px rgba(0,0,0,.4)', fontFamily:'"Inter Tight",sans-serif', maxHeight:'85vh', overflowY:'auto' }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'14px 18px', borderBottom:'1px solid #222' }}>
+        <div style={{ fontSize:12, letterSpacing:2, textTransform:'uppercase', fontWeight:500 }}>Tweaks</div>
+        <button onClick={onClose} style={{ background:'transparent', border:'none', color:'#888', cursor:'pointer', fontSize:16 }}>×</button>
+      </div>
+      <div style={{ padding:18 }}>
+        <div style={{ fontSize:10, letterSpacing:2, color:'#888', textTransform:'uppercase', marginBottom:12 }}>Univers visuel · {themeIdx+1}/{themes.length}</div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:8, marginBottom:8 }}>
+          {themes.map((t, i) => (
+            <button key={t.id} onClick={() => setThemeIdx(i)} style={{ padding:10, background:t.bg, color:t.fg, border:themeIdx===i?`2px solid ${t.accent}`:'2px solid transparent', borderRadius:4, cursor:'pointer', textAlign:'left', fontFamily:'inherit' }}>
+              <div style={{ display:'flex', gap:4, marginBottom:6 }}>
+                <div style={{ width:12, height:12, background:t.accent, borderRadius:2 }}/><div style={{ width:12, height:12, background:t.fg, borderRadius:2 }}/><div style={{ width:12, height:12, background:t.bgAlt, borderRadius:2, border:`1px solid ${t.line}22` }}/>
+              </div>
+              <div style={{ fontSize:10, fontWeight:500 }}>{t.name}</div>
+            </button>
+          ))}
+        </div>
+        <div style={{ fontSize:10, color:'#888', marginTop:8, lineHeight:1.4 }}>{themes[themeIdx].subtitle}</div>
+      </div>
+      <div style={{ padding:'0 18px 18px' }}>
+        <div style={{ fontSize:10, letterSpacing:2, color:'#888', textTransform:'uppercase', marginBottom:12 }}>Logo · {logoIdx+1}/{logos.length}</div>
+        <div style={{ display:'grid', gap:6 }}>
+          {logos.map((l, i) => (
+            <button key={l.id} onClick={() => setLogoIdx(i)} style={{ padding:'10px 12px', background:logoIdx===i?'#1c1c1c':'transparent', color:'#fff', border:logoIdx===i?`1px solid ${themes[themeIdx].accent}`:'1px solid #222', borderRadius:4, cursor:'pointer', textAlign:'left', fontFamily:'inherit', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+              <div><div style={{ fontSize:12, fontWeight:500 }}>{l.name}</div><div style={{ fontSize:10, color:'#888', marginTop:2 }}>{l.description}</div></div>
+              {logoIdx===i && <span style={{ color:themes[themeIdx].accent, fontSize:14 }}>●</span>}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div style={{ padding:'12px 18px', borderTop:'1px solid #222', fontSize:10, color:'#666', lineHeight:1.5 }}>{themes.length} univers × {logos.length} logos · {themes.length*logos.length} combinaisons. Shift+←↑→↓</div>
+    </div>
+  );
+};
+
+const LogoShowcase = ({ theme, logos, logoIdx, setLogoIdx, visible, onClose }) => {
+  if (!visible) return null;
+  return (
+    <div style={{ position:'fixed', inset:0, zIndex:200, background:'rgba(0,0,0,.92)', display:'flex', alignItems:'center', justifyContent:'center', padding:48 }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ maxWidth:1100, width:'100%', background:theme.bg, padding:48, borderRadius:4, maxHeight:'90vh', overflowY:'auto' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:32 }}>
+          <div>
+            <div style={{ fontFamily:theme.mono, fontSize:11, letterSpacing:3, color:theme.accent, textTransform:'uppercase' }}>── Logos</div>
+            <h3 style={{ fontFamily:theme.serif, fontSize:40, margin:'8px 0 0', fontWeight:400 }}>{logos.length} directions de marque</h3>
+          </div>
+          <button onClick={onClose} style={{ background:'transparent', border:`1px solid ${theme.line}44`, color:theme.fg, padding:'10px 18px', cursor:'pointer', fontFamily:theme.mono, fontSize:11, letterSpacing:2, textTransform:'uppercase' }}>Fermer ×</button>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:16 }}>
+          {logos.map((l, i) => (
+            <div key={l.id} onClick={() => { setLogoIdx(i); onClose(); }} style={{ padding:32, background:theme.card, border:logoIdx===i?`2px solid ${theme.accent}`:`1px solid ${theme.line}22`, cursor:'pointer', transition:'all 200ms' }} onMouseEnter={e => e.currentTarget.style.transform='translateY(-2px)'} onMouseLeave={e => e.currentTarget.style.transform='translateY(0)'}>
+              <div style={{ padding:24, background:theme.bg, display:'flex', alignItems:'center', justifyContent:'center', minHeight:120, marginBottom:16 }}>{l.render({ theme, size:1 })}</div>
+              <div style={{ fontFamily:theme.mono, fontSize:10, letterSpacing:2, color:theme.accent, textTransform:'uppercase', marginBottom:6 }}>Direction {String(i+1).padStart(2,'0')}</div>
+              <div style={{ fontFamily:theme.serif, fontSize:20, color:theme.fg, marginBottom:4 }}>{l.name}</div>
+              <div style={{ fontFamily:theme.sans, fontSize:13, color:theme.fgSoft }}>{l.description}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+window.TweaksPanel = TweaksPanel;
+window.LogoShowcase = LogoShowcase;
+</script>
+
+<!-- ── App ───────────────────────────────────────────────────────────────────── -->
+<script type="text/babel" data-presets="react">
+const TWEAK_DEFAULTS = { themeIdx: 0, logoIdx: 10 };
+
+const App = () => {
+  const [themeIdx, setThemeIdx] = React.useState(TWEAK_DEFAULTS.themeIdx);
+  const [logoIdx, setLogoIdx] = React.useState(TWEAK_DEFAULTS.logoIdx);
+  const [tweaksOpen, setTweaksOpen] = React.useState(false);
+  const [showcaseOpen, setShowcaseOpen] = React.useState(false);
+
+  const theme = window.AMI_THEMES[themeIdx];
+  const logo = window.LOGO_VARIANTS[logoIdx];
+
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem('ami-tweaks-v3');
+      if (saved) { const { themeIdx:ti, logoIdx:li } = JSON.parse(saved); if (typeof ti==='number') setThemeIdx(ti); if (typeof li==='number') setLogoIdx(li); } } catch(e) {}
+  }, []);
+  React.useEffect(() => { try { localStorage.setItem('ami-tweaks-v3', JSON.stringify({ themeIdx, logoIdx })); } catch(e) {} }, [themeIdx, logoIdx]);
+  React.useEffect(() => {
+    const onKey = e => {
+      if (e.key==='ArrowRight'&&e.shiftKey) setThemeIdx(i => (i+1)%window.AMI_THEMES.length);
+      if (e.key==='ArrowLeft'&&e.shiftKey)  setThemeIdx(i => (i-1+window.AMI_THEMES.length)%window.AMI_THEMES.length);
+      if (e.key==='ArrowUp'&&e.shiftKey)    setLogoIdx(i => (i-1+window.LOGO_VARIANTS.length)%window.LOGO_VARIANTS.length);
+      if (e.key==='ArrowDown'&&e.shiftKey)  setLogoIdx(i => (i+1)%window.LOGO_VARIANTS.length);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  React.useEffect(() => {
+    document.body.style.background = theme.bg;
+    document.body.style.transition = 'background 500ms ease';
+  }, [theme.bg]);
+
+  return (
+    <div style={{ color:theme.fg, minHeight:'100vh', transition:'color 500ms ease' }}>
+      <CustomCursor theme={theme}/>
+      <ScrollProgress theme={theme}/>
+      <SectionDots theme={theme}/>
+      <Nav theme={theme} logo={logo}/>
+      <Hero theme={theme} logo={logo}/>
+      <Expertises theme={theme}/>
+      <Team theme={theme}/>
+      <Articles theme={theme}/>
+      <About theme={theme}/>
+      <Contact theme={theme}/>
+      <Footer theme={theme} logo={logo}/>
+
+      <div style={{ position:'fixed', right:0, top:'50%', transform:'translateY(-50%)', zIndex:39, display:'flex', flexDirection:'column', alignItems:'stretch' }}>
+        <a href="#contact" style={{ padding:'14px 10px', background:theme.accent, color:'#fff', fontFamily:theme.mono, fontSize:10, letterSpacing:2.5, textTransform:'uppercase', textDecoration:'none', writingMode:'vertical-rl', textAlign:'center', boxShadow:`-4px 0 20px ${theme.accent}33`, transition:'background 200ms' }}
+          onMouseEnter={e => e.currentTarget.style.background=theme.accentDeep}
+          onMouseLeave={e => e.currentTarget.style.background=theme.accent}>Contactez nous →</a>
+        <a href="https://www.linkedin.com/company/ami-avocats" target="_blank" rel="noopener noreferrer"
+          style={{ padding:'12px 10px', background:'transparent', border:`1px solid ${theme.fg}28`, borderTop:'none', color:theme.fg, display:'flex', alignItems:'center', justifyContent:'center', transition:'background 200ms' }}
+          onMouseEnter={e => e.currentTarget.style.background=`${theme.fg}12`}
+          onMouseLeave={e => e.currentTarget.style.background='transparent'}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://wa.me/33123456789" target="_blank" rel="noopener noreferrer"
+          style={{ padding:'12px 10px', background:'transparent', border:`1px solid ${theme.fg}28`, borderTop:'none', color:theme.fg, display:'flex', alignItems:'center', justifyContent:'center', transition:'background 200ms' }}
+          onMouseEnter={e => e.currentTarget.style.background=`${theme.fg}12`}
+          onMouseLeave={e => e.currentTarget.style.background='transparent'}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+      </div>
+
+      <TweaksPanel themeIdx={themeIdx} setThemeIdx={setThemeIdx} logoIdx={logoIdx} setLogoIdx={setLogoIdx} visible={tweaksOpen} onClose={() => setTweaksOpen(false)}/>
+      <LogoShowcase theme={theme} logos={window.LOGO_VARIANTS} logoIdx={logoIdx} setLogoIdx={setLogoIdx} visible={showcaseOpen} onClose={() => setShowcaseOpen(false)}/>
+    </div>
+  );
+};
+
+const mount = () => {
+  if (!window.AMI_THEMES||!window.LOGO_VARIANTS||!window.Nav||!window.Hero||!window.About||!window.TweaksPanel||!window.CustomCursor||!window.ScrollProgress||!window.SectionDots) {
+    return setTimeout(mount, 50);
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+};
+mount();
+</script>
+
+</body>
+</html>
+
+
+
